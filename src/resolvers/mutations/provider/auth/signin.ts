@@ -2,76 +2,80 @@ import { validate } from "isemail";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import { IContext } from "../../types";
-import { ISigninClientArgs } from "./types";
+import { IContext } from "../../../types";
+import { ISignInProviderArgs } from "./types";
+import { GraphQLYogaError } from "@graphql-yoga/node";
 
-export const signinClientMutation = async (
+export const signinProviderMutation = async (
   _: any,
-  clientSigninInput: ISigninClientArgs,
+  providerSigninInput: ISignInProviderArgs,
   ctx: IContext
 ) => {
-  const { verifyPin } = clientSigninInput;
+  const { verifyPin } = providerSigninInput;
 
-  let { email, password } = clientSigninInput;
+  let { email, password } = providerSigninInput;
 
   try {
     // is email empty
     if (!email || email.length < 1) {
-      throw new Error("Email is required.");
+      throw new GraphQLYogaError("Email is required.");
     }
 
     // is email format correct and meets the minimu requirement
     if (!validate(email)) {
-      throw new Error("Provided email is invalid.");
+      throw new GraphQLYogaError("Provided email is invalid.");
     }
 
     // password is empty
     if (!password) {
-      throw new Error("Password is required");
+      throw new GraphQLYogaError("Password is required");
     }
 
     // Password should be at least 5 charectors long.
     if (password.length < 5) {
-      throw new Error("Password must be 5 charectors long.");
+      throw new GraphQLYogaError("Password must be 5 charectors long.");
     }
 
     // Make email lower case and trim the white spaces.
     email = email.toLocaleLowerCase().trim();
 
-    const user = await ctx.prisma.client.findUnique({
+    const user = await ctx.prisma.provider.findUnique({
       where: {
         email,
+      },
+      include: {
+        address: true,
       },
     });
 
     // Check if the user exists.
     if (!user) {
-      throw new Error(
-        `Client with email ${email} does not exist, please signup first`
+      throw new GraphQLYogaError(
+        `Service provider with email ${email} does not exist, please signup first.`
       );
     }
 
     // Check if user password is correct.
     if (user && !(await bcrypt.compare(password, user.password))) {
-      throw new Error("Invalid password");
+      throw new GraphQLYogaError("Invalid password");
     }
 
     // Check if the JWT secret key is defined.
     if (!process.env.GROOMZY_JWT_SECRET) {
-      throw new Error("Internal server error.");
+      throw new GraphQLYogaError("Internal server error.");
     }
 
     // Asign the token
     const token = jwt.sign(
       {
         id: user.id,
-        role: "Client",
+        role: "Provider",
       },
       process.env.GROOMZY_JWT_SECRET
     );
 
-    return { token, role: "Client", ...user };
+    return { token, role: "Provider", ...user };
   } catch (error) {
-    throw new Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

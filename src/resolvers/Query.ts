@@ -1,8 +1,6 @@
 import { IContext } from "./types";
 import { clientsQuery } from "./queries/client/clients";
 import { providersQuery } from "./queries/provider/providers";
-import { servicesQuery } from "./queries/service/services";
-import { staffsQuery } from "./queries/staff/staffs";
 import { providerRatingsQuery } from "./queries/provider/proider_ratings";
 import { providerBookingsQuery } from "./queries/provider/provider_bookings";
 import { providerServicesQuery } from "./queries/provider/provider_services";
@@ -30,9 +28,9 @@ export default {
    */
   clientBookings: async (
     _: any,
-    clientBooking: { clientId: number },
+    clientBookingArgs: { clientId: number },
     ctx: IContext
-  ) => clientBookingsQuery(_, clientBooking, ctx),
+  ) => clientBookingsQuery(_, clientBookingArgs, ctx),
 
   /**
    * Get all service providers
@@ -53,9 +51,9 @@ export default {
    */
   providerOperatingTimes: async (
     _: any,
-    providerOperatingTime: { providerId: number },
+    providerOperatingTimeArgs: { providerId: number },
     ctx: IContext
-  ) => providerOperatingTimesQuery(_, providerOperatingTime, ctx),
+  ) => providerOperatingTimesQuery(_, providerOperatingTimeArgs, ctx),
 
   /**
    * Get all provider services
@@ -66,9 +64,9 @@ export default {
    */
   providerServices: async (
     _: any,
-    providerService: { providerId: number },
+    providerServicesArgs: { providerId: number },
     ctx: IContext
-  ) => providerServicesQuery(_, providerService, ctx),
+  ) => providerServicesQuery(_, providerServicesArgs, ctx),
 
   /**
    * Get all provider bookings
@@ -79,9 +77,9 @@ export default {
    */
   providerBookings: async (
     _: any,
-    providerBooking: { providerId: number },
+    providerBookingArgs: { providerId: number },
     ctx: IContext
-  ) => providerBookingsQuery(_, providerBooking, ctx),
+  ) => providerBookingsQuery(_, providerBookingArgs, ctx),
 
   /**
    * Get all provider staffs
@@ -92,9 +90,9 @@ export default {
    */
   providerStaffs: async (
     _: any,
-    providerStaff: { providerId: number },
+    providerStaffArgs: { providerId: number },
     ctx: IContext
-  ) => providerStaffsQuery(_, providerStaff, ctx),
+  ) => providerStaffsQuery(_, providerStaffArgs, ctx),
 
   /**
    * Get all provider ratings
@@ -105,27 +103,9 @@ export default {
    */
   providerRatings: async (
     _: any,
-    providerRating: { providerId: number },
+    providerRatingArgs: { providerId: number },
     ctx: IContext
-  ) => providerRatingsQuery(_, providerRating, ctx),
-
-  /**
-   * Get all services
-   * @param _
-   * @param __
-   * @param ctx
-   * @returns [Service]
-   */
-  services: async (_: any, __: any, ctx: IContext) => servicesQuery(_, __, ctx),
-
-  /**
-   * Get all staffs
-   * @param _
-   * @param __
-   * @param ctx
-   * @returns [Staff]
-   */
-  staffs: async (_: any, __: any, ctx: IContext) => staffsQuery(_, __, ctx),
+  ) => providerRatingsQuery(_, providerRatingArgs, ctx),
 
   /**
    * TO DO ADD MORE QUERIES

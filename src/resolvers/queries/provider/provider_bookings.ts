@@ -1,3 +1,4 @@
+import { GraphQLYogaError } from "@graphql-yoga/node";
 import { IContext } from "../../types";
 
 export const providerBookingsQuery = async (
@@ -14,12 +15,7 @@ export const providerBookingsQuery = async (
       select: {
         bookings: {
           include: {
-            client: {
-              select: {
-                id: true,
-                fullName: true,
-              },
-            },
+            client: true,
             staff: true,
             service: true,
           },
@@ -27,6 +23,6 @@ export const providerBookingsQuery = async (
       },
     });
   } catch (error) {
-    throw new Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

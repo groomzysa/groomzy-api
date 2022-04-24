@@ -1,55 +1,77 @@
 import { IContext } from "./types";
-import { signupClientMutation } from "./mutations/client/signup";
+import { signupClientMutation } from "./mutations/client/auth/signup";
 import {
   IClientBookArgs,
-  IClientCancelBookArgs,
-  IClientCompleteBookArgs,
-  IClientDeleteBookArgs,
+  IClientCancelBookingArgs,
+  IClientCompleteBookingArgs,
+  IClientDeleteBookingArgs,
+  IClientRateBookingArgs,
+} from "../resolvers/mutations/client/booking/types";
+import {
   ISigninClientArgs,
   ISignupClientArgs,
-} from "../resolvers/mutations/client/types";
-import { ISignupProviderArgs } from "./mutations/provider/types";
-import { signupProviderMutation } from "./mutations/provider/signup";
-import { signinClientMutation } from "./mutations/client/signin";
-import { ISigninProviderArgs } from "./mutations/provider/types";
-import { signinProviderMutation } from "./mutations/provider/signin";
-import { addServiceMutation } from "./mutations/service/addServices";
-import { IAddServiceArgs } from "./mutations/service/types";
-import { addStaffMutation } from "./mutations/staff/addStaff";
-import { IAddStaffArgs } from "./mutations/staff/types";
-import { IDeleteServiceArgs } from "./mutations/service/types";
-import { deleteServiceMutation } from "./mutations/service/deleteService";
-import { IDeleteStaffArgs } from "./mutations/staff/types";
-import { deleteStaffMutation } from "./mutations/staff/deleteStaff";
-import { editServiceMutation } from "./mutations/service/editService";
-import { IEditServiceArgs } from "./mutations/service/types";
-import { IEditStaffArgs } from "./mutations/staff/types";
-import { editStaffMutation } from "./mutations/staff/editStaff";
-import { addOperatingTimeMutation } from "./mutations/operating_time/add_operating_time";
+} from "../resolvers/mutations/client/auth/types";
+import {
+  IEditProfileProviderArgs,
+  ISignupProviderArgs,
+} from "./mutations/provider/auth/types";
+import {
+  IProviderCancelBookingArgs,
+  IProviderDoneBookingArgs,
+} from "./mutations/provider/booking/types";
+import { signupProviderMutation } from "./mutations/provider/auth/signup";
+import { signinClientMutation } from "./mutations/client/auth/signin";
+import { ISignInProviderArgs } from "./mutations/provider/auth/types";
+import { signinProviderMutation } from "./mutations/provider/auth/signin";
+import { addServiceMutation } from "./mutations/provider/service/addServices";
+import { IAddServiceArgs } from "./mutations/provider/service/types";
+import { addStaffMutation } from "./mutations/provider/staff/addStaff";
+import { IAddStaffArgs } from "./mutations/provider/staff/types";
+import { IDeleteServiceArgs } from "./mutations/provider/service/types";
+import { deleteServiceMutation } from "./mutations/provider/service/deleteService";
+import { IDeleteStaffArgs } from "./mutations/provider/staff/types";
+import { deleteStaffMutation } from "./mutations/provider/staff/deleteStaff";
+import { editServiceMutation } from "./mutations/provider/service/editService";
+import { IEditServiceArgs } from "./mutations/provider/service/types";
+import { IEditStaffArgs } from "./mutations/provider/staff/types";
+import { editStaffMutation } from "./mutations/provider/staff/editStaff";
+import { addOperatingTimeMutation } from "./mutations/provider/operating_time/add_operating_time";
 import {
   IAddOperatingTimeArgs,
   IDeleteOperatingTimeArgs,
   IEditOperatingTimeArgs,
-} from "./mutations/operating_time/types";
-import { editOperatingTimeMutation } from "./mutations/operating_time/edit_operating_time";
-import { deleteOperatingTimeMutation } from "./mutations/operating_time/delete_operating_time";
-import { clientBookMutation } from "./mutations/client/book";
-import { clientBookCompleteMutation } from "./mutations/client/book_complete";
-import { clientBookCancelMutation } from "./mutations/client/book_cancel";
-import { clientBookDeleteMutation } from "./mutations/client/book_delete";
+} from "./mutations/provider/operating_time/types";
+import { editOperatingTimeMutation } from "./mutations/provider/operating_time/edit_operating_time";
+import { deleteOperatingTimeMutation } from "./mutations/provider/operating_time/delete_operating_time";
+import { clientBookMutation } from "./mutations/client/booking/book";
+import { clientBookingCompleteMutation } from "./mutations/client/booking/booking_complete";
+import { clientBookingCancelMutation } from "./mutations/client/booking/booking_cancel";
+import { clientBookingDeleteMutation } from "./mutations/client/booking/booking_delete";
+import { editProfileProviderMutation } from "./mutations/provider/auth/editProfile";
+import { providerBookingDoneMutation } from "./mutations/provider/booking/booking_done";
+import { providerBookingCancelMutation } from "./mutations/provider/booking/booking_cancel";
+import { clientBookingRateMutation } from "./mutations/client/booking/booking_rate";
 
 export default {
   /**
    * Client sign up mutation
    */
-  signupClient: async (_: any, client: ISignupClientArgs, ctx: IContext) => {
-    return signupClientMutation(_, client, ctx);
+  signupClient: async (
+    _: any,
+    signUpClientsArgs: ISignupClientArgs,
+    ctx: IContext
+  ) => {
+    return signupClientMutation(_, signUpClientsArgs, ctx);
   },
   /**
    * Client sign in mutation
    */
-  signinClient: async (_: any, client: ISigninClientArgs, ctx: IContext) => {
-    return signinClientMutation(_, client, ctx);
+  signinClient: async (
+    _: any,
+    signInClientArgs: ISigninClientArgs,
+    ctx: IContext
+  ) => {
+    return signinClientMutation(_, signInClientArgs, ctx);
   },
 
   /**
@@ -57,10 +79,21 @@ export default {
    */
   signupProvider: async (
     _: any,
-    provider: ISignupProviderArgs,
+    signUpProviderArgs: ISignupProviderArgs,
     ctx: IContext
   ) => {
-    return signupProviderMutation(_, provider, ctx);
+    return signupProviderMutation(_, signUpProviderArgs, ctx);
+  },
+
+  /**
+   * Provider edit profile mutation
+   */
+  editProfileProvider: async (
+    _: any,
+    editProfileProviderArgs: IEditProfileProviderArgs,
+    ctx: IContext
+  ) => {
+    return editProfileProviderMutation(_, editProfileProviderArgs, ctx);
   },
 
   /**
@@ -68,52 +101,68 @@ export default {
    */
   signinProvider: async (
     _: any,
-    provider: ISigninProviderArgs,
+    signInProviderArgs: ISignInProviderArgs,
     ctx: IContext
   ) => {
-    return signinProviderMutation(_, provider, ctx);
+    return signinProviderMutation(_, signInProviderArgs, ctx);
   },
 
   /**
    * Add service mutation
    */
-  addService: async (_: any, service: IAddServiceArgs, ctx: IContext) => {
-    return addServiceMutation(_, service, ctx);
+  addService: async (
+    _: any,
+    addServiceArgs: IAddServiceArgs,
+    ctx: IContext
+  ) => {
+    return addServiceMutation(_, addServiceArgs, ctx);
   },
 
   /**
    * Delete service mutation
    */
-  deleteService: async (_: any, service: IDeleteServiceArgs, ctx: IContext) => {
-    return deleteServiceMutation(_, service, ctx);
+  deleteService: async (
+    _: any,
+    deleteServiceArgs: IDeleteServiceArgs,
+    ctx: IContext
+  ) => {
+    return deleteServiceMutation(_, deleteServiceArgs, ctx);
   },
 
   /**
    * Edit service mutation
    */
-  editService: async (_: any, service: IEditServiceArgs, ctx: IContext) => {
-    return editServiceMutation(_, service, ctx);
+  editService: async (
+    _: any,
+    editServiceArgs: IEditServiceArgs,
+    ctx: IContext
+  ) => {
+    return editServiceMutation(_, editServiceArgs, ctx);
   },
 
   /**
    * Add staff mutation
    */
-  addStaff: async (_: any, staff: IAddStaffArgs, ctx: IContext) => {
-    return addStaffMutation(_, staff, ctx);
+  addStaff: async (_: any, addStaffArgs: IAddStaffArgs, ctx: IContext) => {
+    return addStaffMutation(_, addStaffArgs, ctx);
   },
 
   /**
    * Delete staff mutation
    */
-  deleteStaff: async (_: any, staff: IDeleteStaffArgs, ctx: IContext) => {
-    return deleteStaffMutation(_, staff, ctx);
+  deleteStaff: async (
+    _: any,
+    deleteStaffArgs: IDeleteStaffArgs,
+    ctx: IContext
+  ) => {
+    return deleteStaffMutation(_, deleteStaffArgs, ctx);
   },
 
   /**
    * Edit staff mutation
    */
-  editStaff: async (_: any, staff: IEditStaffArgs, ctx: IContext) => {
-    return editStaffMutation(_, staff, ctx);
+  editStaff: async (_: any, editStaffArgs: IEditStaffArgs, ctx: IContext) => {
+    return editStaffMutation(_, editStaffArgs, ctx);
   },
 
   /**
@@ -121,10 +170,10 @@ export default {
    */
   addOperatingTime: async (
     _: any,
-    operatingTime: IAddOperatingTimeArgs,
+    addOperatingTimeArgs: IAddOperatingTimeArgs,
     ctx: IContext
   ) => {
-    return addOperatingTimeMutation(_, operatingTime, ctx);
+    return addOperatingTimeMutation(_, addOperatingTimeArgs, ctx);
   },
 
   /**
@@ -132,10 +181,10 @@ export default {
    */
   editOperatingTime: async (
     _: any,
-    operatingTime: IEditOperatingTimeArgs,
+    editOperatingTimeArgs: IEditOperatingTimeArgs,
     ctx: IContext
   ) => {
-    return editOperatingTimeMutation(_, operatingTime, ctx);
+    return editOperatingTimeMutation(_, editOperatingTimeArgs, ctx);
   },
 
   /**
@@ -143,49 +192,86 @@ export default {
    */
   deleteOperatingTime: async (
     _: any,
-    operatingTime: IDeleteOperatingTimeArgs,
+    deleteOperatingTimeArgs: IDeleteOperatingTimeArgs,
     ctx: IContext
   ) => {
-    return deleteOperatingTimeMutation(_, operatingTime, ctx);
+    return deleteOperatingTimeMutation(_, deleteOperatingTimeArgs, ctx);
+  },
+
+  /**
+   * Provider done booking mutation
+   */
+  providerBookingDone: async (
+    _: any,
+    providerDoneBookingArgs: IProviderDoneBookingArgs,
+    ctx: IContext
+  ) => {
+    return providerBookingDoneMutation(_, providerDoneBookingArgs, ctx);
+  },
+
+  /**
+   * Provider cancel booking mutation
+   */
+  providerBookingCancel: async (
+    _: any,
+    providerCancelBookingArgs: IProviderCancelBookingArgs,
+    ctx: IContext
+  ) => {
+    return providerBookingCancelMutation(_, providerCancelBookingArgs, ctx);
   },
 
   /**
    * Client book mutation
    */
-  clientBook: async (_: any, clientBook: IClientBookArgs, ctx: IContext) => {
-    return clientBookMutation(_, clientBook, ctx);
+  clientBook: async (
+    _: any,
+    clientBookArgs: IClientBookArgs,
+    ctx: IContext
+  ) => {
+    return clientBookMutation(_, clientBookArgs, ctx);
   },
 
   /**
-   * Client book complete mutation
+   * Client booking complete mutation
    */
-  clientBookComplete: async (
+  clientBookingComplete: async (
     _: any,
-    clientBookComplete: IClientCompleteBookArgs,
+    clientCompleteBookingArgs: IClientCompleteBookingArgs,
     ctx: IContext
   ) => {
-    return clientBookCompleteMutation(_, clientBookComplete, ctx);
+    return clientBookingCompleteMutation(_, clientCompleteBookingArgs, ctx);
   },
 
   /**
-   * Client book cancel mutation
+   * Client booking cancel mutation
    */
-  clientBookCancel: async (
+  clientBookingCancel: async (
     _: any,
-    cancelBookComplete: IClientCancelBookArgs,
+    clientCancelBookingArgs: IClientCancelBookingArgs,
     ctx: IContext
   ) => {
-    return clientBookCancelMutation(_, cancelBookComplete, ctx);
+    return clientBookingCancelMutation(_, clientCancelBookingArgs, ctx);
   },
 
   /**
-   * Client book delete mutation
+   * Client booking delete mutation
    */
-  clientBookDelete: async (
+  clientBookingDelete: async (
     _: any,
-    cancelBookComplete: IClientDeleteBookArgs,
+    clientDeleteBooingkArgs: IClientDeleteBookingArgs,
     ctx: IContext
   ) => {
-    return clientBookDeleteMutation(_, cancelBookComplete, ctx);
+    return clientBookingDeleteMutation(_, clientDeleteBooingkArgs, ctx);
+  },
+
+  /**
+   * Client booking rate mutation
+   */
+  clientBookingRate: async (
+    _: any,
+    clientRateBooingkArgs: IClientRateBookingArgs,
+    ctx: IContext
+  ) => {
+    return clientBookingRateMutation(_, clientRateBooingkArgs, ctx);
   },
 };

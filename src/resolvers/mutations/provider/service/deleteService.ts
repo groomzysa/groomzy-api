@@ -1,6 +1,7 @@
+import { GraphQLYogaError } from "@graphql-yoga/node";
 import jwt from "jsonwebtoken";
 
-import { IContext } from "../../types";
+import { IContext } from "../../../types";
 import { IDeleteServiceArgs } from "./types";
 
 export const deleteServiceMutation = async (
@@ -13,28 +14,30 @@ export const deleteServiceMutation = async (
   try {
     // Service id is required
     if (!serviceId) {
-      throw new Error("Service id is required.");
+      throw new GraphQLYogaError("Service id is required.");
     }
 
     // Service category is required
     if (!category) {
-      throw new Error("Service category is required.");
+      throw new GraphQLYogaError("Service category is required.");
     }
 
     // Check if an auth header is set.
     const authorizationHeader =
-      ctx.request.headers["x-access-token"] ||
-      ctx.request.headers.authorization;
+      ctx.request.headers.get("x-access-token") ||
+      ctx.request.headers.get("authorization");
 
     // TODO: Should we throw an Error instead?
 
     if (!authorizationHeader) {
-      throw new Error("Looks like you are not signed in. Please sign in.");
+      throw new GraphQLYogaError(
+        "Looks like you are not signed in. Please sign in."
+      );
     }
 
     // Check if the JWT secret key is defined.
     if (!process.env.GROOMZY_JWT_SECRET) {
-      throw Error("Internal server error.");
+      throw new GraphQLYogaError("Internal server error.");
     }
 
     // Get the token.
@@ -67,6 +70,6 @@ export const deleteServiceMutation = async (
       message: "Service deleted successfully",
     };
   } catch (error) {
-    throw new Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

@@ -1,7 +1,8 @@
+import { GraphQLYogaError } from "@graphql-yoga/node";
 import { BusinessDay } from "@prisma/client";
 import jwt from "jsonwebtoken";
 
-import { IContext } from "../../types";
+import { IContext } from "../../../types";
 import { IAddOperatingTimeArgs } from "./types";
 
 export const addOperatingTimeMutation = async (
@@ -14,34 +15,36 @@ export const addOperatingTimeMutation = async (
   try {
     // Day is required
     if (!day) {
-      throw new Error("Day is required.");
+      throw new GraphQLYogaError("Day is required.");
     }
 
     // Start time is required
     if (!startTime) {
-      throw new Error("Start time is required.");
+      throw new GraphQLYogaError("Start time is required.");
     }
 
     // End time is required
     if (!endTime) {
-      throw new Error("End time is required.");
+      throw new GraphQLYogaError("End time is required.");
     }
 
     try {
       // Check if an auth header is set.
       const authorizationHeader =
-        ctx.request.headers["x-access-token"] ||
-        ctx.request.headers.authorization;
+        ctx.request.headers.get("x-access-token") ||
+        ctx.request.headers.get("authorization");
 
       // TODO: Should we throw an Error instead?
 
       if (!authorizationHeader) {
-        throw new Error("Looks like you are not signed in. Please sign in.");
+        throw new GraphQLYogaError(
+          "Looks like you are not signed in. Please sign in."
+        );
       }
 
       // Check if the JWT secret key is defined.
       if (!process.env.GROOMZY_JWT_SECRET) {
-        throw Error("Internal server error.");
+        throw new GraphQLYogaError("Internal server error.");
       }
 
       // Get the token.
@@ -67,7 +70,7 @@ export const addOperatingTimeMutation = async (
       });
 
       if (businessTimeExist) {
-        throw new Error(`Business day ${day} already exist`);
+        throw new GraphQLYogaError(`Business day ${day} already exist`);
       }
 
       await ctx.prisma.dayTime.create({
@@ -95,9 +98,9 @@ export const addOperatingTimeMutation = async (
         message: "Day time added successfully",
       };
     } catch (error) {
-      throw Error(error.message);
+      throw new GraphQLYogaError(error.message);
     }
   } catch (error) {
-    throw new Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

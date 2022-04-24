@@ -1,17 +1,6 @@
 # TO DO ADD MORE MUTATION TYPES
 
 type Mutation {
-  # ********** Client signup ********** #
-  signupClient(
-    email: String!
-    fullName: String!
-    password: String!
-    phoneNumber: String!
-  ): Message!
-
-  # ********** Client signin ********** #
-  signinClient(email: String!, password: String!, verify: String): Client!
-
   # ********** Provider signup ********** #
   signupProvider(
     email: String!
@@ -20,10 +9,23 @@ type Mutation {
     phoneNumber: String!
   ): Message!
 
+  # *********** Provider edit profile ************#
+  editProfileProvider(
+    fullName: String
+    streetNumber: String
+    streetName: String
+    suburbName: String
+    cityName: String
+    provinceName: String
+    areaCode: String
+    latitude: Float
+    longitude: Float
+  ): Message!
+
   # ********** Provider signin ********** #
   signinProvider(email: String!, password: String!, verify: String): Provider!
 
-  # ********** Add service ********** #
+  # ********** Provider Add service ********** #
   addService(
     category: String!
     title: String!
@@ -34,10 +36,10 @@ type Mutation {
     inHouse: Boolean!
   ): Message!
 
-  # ********** Delete service ********** #
+  # ********** Provider Delete service ********** #
   deleteService(serviceId: Int!, category: String!): Message!
 
-  # ********** Edit service ********** #
+  # ********** Provider Edit service ********** #
   editService(
     serviceId: Int!
     category: String
@@ -49,19 +51,19 @@ type Mutation {
     inHouse: Boolean
   ): Message!
 
-  # ********** Add staff ********** #
+  # ********** Provider Add staff ********** #
   addStaff(fullName: String!): Message!
 
-  # ********** Delete staff ********** #
+  # ********** Provider Delete staff ********** #
   deleteStaff(staffId: Int!): Message!
 
-  # ********** Edit staff ********** #
+  # ********** Provider Edit staff ********** #
   editStaff(staffId: Int!, fullName: String): Message!
 
-  # ********** Add operating time ********** #
+  # ********** Provider Add operating time ********** #
   addOperatingTime(day: String!, startTime: String!, endTime: String!): Message!
 
-  # ********** Edit operating time ********** #
+  # ********** Provider Edit operating time ********** #
   editOperatingTime(
     dayTimeId: Int!
     day: String!
@@ -69,8 +71,28 @@ type Mutation {
     endTime: String
   ): Message!
 
-  # ********** Delete operating time ********** #
+  # ********** Provider Delete operating time ********** #
   deleteOperatingTime(dayTimeId: Int!): Message!
+
+  # ********** Provider booking done ********** #
+  providerBookingDone(bookingId: Int!, done: Boolean!): Message!
+
+  # ********** Provider booking cancel ********** #
+  providerBookingCancel(bookingId: Int!, cancel: Boolean!): Message!
+
+  # ********************************************************************************* #
+  # ********************************************************************************* #
+
+  # ********** Client signup ********** #
+  signupClient(
+    email: String!
+    fullName: String!
+    password: String!
+    phoneNumber: String!
+  ): Message!
+
+  # ********** Client signin ********** #
+  signinClient(email: String!, password: String!, verify: String): Client!
 
   # ********** Client book ********** #
   clientBook(
@@ -83,12 +105,20 @@ type Mutation {
     address: String
   ): Booking!
 
-  # ********** Client book complete ********** #
-  clientBookComplete(bookingId: Int!, complete: Boolean!): Message!
+  # ********** Client booking complete ********** #
+  clientBookingComplete(bookingId: Int!, complete: Boolean!): Message!
 
-  # ********** Client book cancel ********** #
-  clientBookCancel(bookingId: Int!, cancel: Boolean!): Message!
+  # ********** Client booking cancel ********** #
+  clientBookingCancel(bookingId: Int!, cancel: Boolean!): Message!
 
-  # ********** Client book delete ********** #
-  clientBookDelete(bookingId: Int!, delete: Boolean!): Message!
+  # ********** Client booking delete ********** #
+  clientBookingDelete(bookingId: Int!, delete: Boolean!): Message!
+
+  # ********** Client booking rate ********** #
+  clientBookingRate(
+    bookingId: Int!
+    ratingId: Int
+    rate: Float!
+    comment: String
+  ): Message!
 }
