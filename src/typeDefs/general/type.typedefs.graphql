@@ -4,8 +4,18 @@
 type Address {
   # Address identifier
   id: Int!
-  # Address
-  address: String
+  # Street number
+  streetNumber: String
+  # Street name
+  streetName: String
+  # Suburb name
+  suburbName: String
+  # City name
+  cityName: String
+  # Province name
+  provinceName: String
+  # Area code
+  areaCode: String
   # Location latitude
   latitude: Float
   # Location longitude

@@ -1,10 +1,11 @@
 import { validate } from "isemail";
 import bcrypt from "bcrypt";
 
-import { IContext } from "../../types";
+import { IContext } from "../../../types";
 import { ISignupProviderArgs } from "./types";
-import { mailContent } from "../../../utils";
-import { transport } from "../../../utils";
+import { mailContent } from "../../../../utils";
+import { transport } from "../../../../utils";
+import { GraphQLYogaError } from "@graphql-yoga/node";
 
 const messagingApi = require("@cmdotcom/text-sdk");
 
@@ -24,22 +25,22 @@ export const signupProviderMutation = async (
   try {
     // is email empty
     if (!email || email.length < 1) {
-      throw new Error("Email is required.");
+      throw new GraphQLYogaError("Email is required.");
     }
 
     // is email format correct and meets the minimu requirement
     if (!validate(email)) {
-      throw new Error("Provided email is invalid.");
+      throw new GraphQLYogaError("Provided email is invalid.");
     }
 
     // password is empty
     if (!password) {
-      throw new Error("Password is required");
+      throw new GraphQLYogaError("Password is required");
     }
 
     // Password should be at least 5 charectors long.
     if (password.length < 5) {
-      throw new Error("Password must be 5 charectors long.");
+      throw new GraphQLYogaError("Password must be 5 charectors long.");
     }
 
     // Make email lower case and trim the white spaces.
@@ -53,7 +54,7 @@ export const signupProviderMutation = async (
         },
       })
     ) {
-      throw new Error(
+      throw new GraphQLYogaError(
         "Service provider already exists, navigate to signing in."
       );
     }
@@ -83,7 +84,7 @@ export const signupProviderMutation = async (
 		`;
 
     if (!provider) {
-      throw new Error(
+      throw new GraphQLYogaError(
         "Something went wrong when signing up, please try again later."
       );
     }
@@ -140,13 +141,13 @@ export const signupProviderMutation = async (
         },
       });
 
-      throw new Error(providerSendEmailErrorMessage);
+      throw new GraphQLYogaError(providerSendEmailErrorMessage);
     }
 
     return {
       message: `All set. Now you can sign in using the credentials you provided sent to: ${provider.email}. Please check your spam folder if email not recieved and report it as "not spam".`,
     };
   } catch (error) {
-    throw new Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

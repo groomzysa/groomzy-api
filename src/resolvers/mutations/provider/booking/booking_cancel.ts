@@ -1,36 +1,39 @@
 import jwt from "jsonwebtoken";
 
-import { IClientCancelBookArgs } from "./types";
+import { IProviderCancelBookingArgs } from "./types";
 
-import { IContext } from "../../types";
+import { IContext } from "../../../types";
+import { GraphQLYogaError } from "@graphql-yoga/node";
 
-export const clientBookCancelMutation = async (
+export const providerBookingCancelMutation = async (
   _: any,
-  cancelBookInput: IClientCancelBookArgs,
+  providerCancelBookingArgs: IProviderCancelBookingArgs,
   ctx: IContext
 ) => {
-  const { bookingId, cancel } = cancelBookInput;
+  const { bookingId, cancel } = providerCancelBookingArgs;
 
   try {
     // Booking id is required
     if (!bookingId) {
-      throw new Error("Booking id is required.");
+      throw new GraphQLYogaError("Booking id is required.");
     }
 
     // Check if an auth header is set.
     const authorizationHeader =
-      ctx.request.headers["x-access-token"] ||
-      ctx.request.headers.authorization;
+      ctx.request.headers.get("x-access-token") ||
+      ctx.request.headers.get("authorization");
 
     // TODO: Should we throw an Error instead?
 
     if (!authorizationHeader) {
-      throw new Error("Looks like you are not signed in. Please sign in.");
+      throw new GraphQLYogaError(
+        "Looks like you are not signed in. Please sign in."
+      );
     }
 
     // Check if the JWT secret key is defined.
     if (!process.env.GROOMZY_JWT_SECRET) {
-      throw Error("Internal server error.");
+      throw new GraphQLYogaError("Internal server error.");
     }
 
     // Get the token.
@@ -38,10 +41,10 @@ export const clientBookCancelMutation = async (
     // Verify the token if it is valid.
     const signedIn = jwt.verify(token, process.env.GROOMZY_JWT_SECRET);
 
-    const { id: clientId, role } = signedIn as { id: number; role: string };
+    const { id: providerId, role } = signedIn as { id: number; role: string };
 
     if (!cancel) {
-      throw Error(
+      throw new GraphQLYogaError(
         "Eisther Something went wrong while trying to cancel the booking."
       );
     }
@@ -55,9 +58,9 @@ export const clientBookCancelMutation = async (
       },
     });
     return {
-      message: "Booking cancelled successfully.",
+      message: "Booking is now cancelled.",
     };
   } catch (error) {
-    throw new Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

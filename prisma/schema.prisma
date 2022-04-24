@@ -7,7 +7,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 // Enums
@@ -44,10 +45,15 @@ enum UserStatus {
 
 // Address model
 model Address {
-  id        Int     @id @default(autoincrement())
-  address   String? @db.VarChar(255)
-  latitude  Float?
-  longitude Float?
+  id           Int     @id @default(autoincrement())
+  streetNumber String? @db.VarChar(255)
+  streetName   String? @db.VarChar(255)
+  suburbName   String? @db.VarChar(255)
+  cityName     String? @db.VarChar(255)
+  provinceName String? @db.VarChar(255)
+  areaCode     String? @db.VarChar(255)
+  latitude     Float?
+  longitude    Float?
 
   // An address may belong to a client
   client Client?
@@ -107,7 +113,7 @@ model Client {
 
   // A cleint may have an address
   address   Address @relation(fields: [addressId], references: [id])
-  addressId Int
+  addressId Int     @unique
 
   // A client may have bookings
   bookings Booking[]
@@ -149,7 +155,7 @@ model Rating {
 
   // Booking may be rated
   booking   Booking @relation(fields: [bookingId], references: [id])
-  bookingId Int
+  bookingId Int     @unique
 }
 
 // Service model
@@ -182,7 +188,7 @@ model Provider {
 
   // A provider may have an address
   address   Address @relation(fields: [addressId], references: [id])
-  addressId Int
+  addressId Int     @unique
 
   // A provider may have bookings
   bookings Booking[]
@@ -249,5 +255,5 @@ model TransportCost {
 
   // Bookings made for inhouse call at certain distances
   booking   Booking @relation(fields: [bookingId], references: [id])
-  bookingId Int
+  bookingId Int     @unique
 }

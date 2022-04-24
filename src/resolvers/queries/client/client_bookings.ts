@@ -1,3 +1,4 @@
+import { GraphQLYogaError } from "@graphql-yoga/node";
 import { IContext } from "../../types";
 
 export const clientBookingsQuery = async (
@@ -25,6 +26,7 @@ export const clientBookingsQuery = async (
                 fullName: true,
               },
             },
+            rating: true,
             staff: true,
             service: true,
           },
@@ -32,6 +34,6 @@ export const clientBookingsQuery = async (
       },
     });
   } catch (error) {
-    throw new Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

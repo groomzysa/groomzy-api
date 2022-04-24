@@ -1,36 +1,39 @@
 import jwt from "jsonwebtoken";
 
-import { IClientCompleteBookArgs } from "./types";
+import { IClientCompleteBookingArgs } from "./types";
 
-import { IContext } from "../../types";
+import { IContext } from "../../../types";
+import { GraphQLYogaError } from "@graphql-yoga/node";
 
-export const clientBookCompleteMutation = async (
+export const clientBookingCompleteMutation = async (
   _: any,
-  completeBookInput: IClientCompleteBookArgs,
+  clientCompleteBookingInput: IClientCompleteBookingArgs,
   ctx: IContext
 ) => {
-  const { bookingId, complete } = completeBookInput;
+  const { bookingId, complete } = clientCompleteBookingInput;
 
   try {
     // Booking id is required
     if (!bookingId) {
-      throw new Error("Booking id is required.");
+      throw new GraphQLYogaError("Booking id is required.");
     }
 
     // Check if an auth header is set.
     const authorizationHeader =
-      ctx.request.headers["x-access-token"] ||
-      ctx.request.headers.authorization;
+      ctx.request.headers.get("x-access-token") ||
+      ctx.request.headers.get("authorization");
 
     // TODO: Should we throw an Error instead?
 
     if (!authorizationHeader) {
-      throw new Error("Looks like you are not signed in. Please sign in.");
+      throw new GraphQLYogaError(
+        "Looks like you are not signed in. Please sign in."
+      );
     }
 
     // Check if the JWT secret key is defined.
     if (!process.env.GROOMZY_JWT_SECRET) {
-      throw Error("Internal server error.");
+      throw new GraphQLYogaError("Internal server error.");
     }
 
     // Get the token.
@@ -41,7 +44,7 @@ export const clientBookCompleteMutation = async (
     const { id: clientId, role } = signedIn as { id: number; role: string };
 
     if (!complete) {
-      throw Error(
+      throw new GraphQLYogaError(
         "Eisther Something went wrong while trying to complete the booking or the booking was cancelled."
       );
     }
@@ -58,6 +61,6 @@ export const clientBookCompleteMutation = async (
       message: "Booking completed successfully.",
     };
   } catch (error) {
-    throw new Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

@@ -1,5 +1,9 @@
-import { IContext } from "../../types";
+import { isEmpty } from "lodash";
+
+import { IContext } from "@resolvers/types";
+
 import { IProvidersArgs } from "./types";
+import { GraphQLYogaError } from "@graphql-yoga/node";
 
 export const providersQuery = async (
   _: any,
@@ -8,31 +12,19 @@ export const providersQuery = async (
 ) => {
   const { category, search } = providersArgs;
   try {
-    if (search && search.length && category && category.length) {
+    if (!isEmpty(search) && !isEmpty(category)) {
       return ctx.prisma.provider.findMany({
         where: {
           serviceProviderCategories: {
-            some: {
+            every: {
               AND: [
                 {
-                  OR: [
-                    {
-                      service: {
-                        title: {
-                          contains: search,
-                          mode: "insensitive",
-                        },
-                      },
+                  provider: {
+                    fullName: {
+                      contains: search,
+                      mode: "insensitive",
                     },
-                    {
-                      provider: {
-                        fullName: {
-                          contains: search,
-                          mode: "insensitive",
-                        },
-                      },
-                    },
-                  ],
+                  },
                 },
                 {
                   category: {
@@ -48,42 +40,30 @@ export const providersQuery = async (
         },
         ...providerNormalQuery(),
       });
-    } else if (search && search.length) {
+    } else if (!isEmpty(search)) {
       return ctx.prisma.provider.findMany({
         where: {
           serviceProviderCategories: {
-            some: {
-              OR: [
-                {
-                  service: {
-                    title: {
-                      contains: search,
-                      mode: "insensitive",
-                    },
-                  },
+            every: {
+              provider: {
+                fullName: {
+                  contains: search,
+                  mode: "insensitive",
                 },
-                {
-                  provider: {
-                    fullName: {
-                      contains: search,
-                      mode: "insensitive",
-                    },
-                  },
-                },
-              ],
+              },
             },
           },
         },
         ...providerNormalQuery(),
       });
-    } else if (category && category.length) {
+    } else if (!isEmpty(category)) {
       return ctx.prisma.provider.findMany({
         where: {
           serviceProviderCategories: {
-            some: {
+            every: {
               category: {
                 category: {
-                  contains: category,
+                  equals: category,
                   mode: "insensitive",
                 },
               },
@@ -98,7 +78,7 @@ export const providersQuery = async (
       ...providerNormalQuery(),
     });
   } catch (error) {
-    throw Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };
 
@@ -115,8 +95,10 @@ const providerNormalQuery = () => ({
     staffs: true,
     bookings: {
       include: {
+        client: true,
         rating: true,
         service: true,
+        staff: true,
       },
     },
     serviceProviderCategories: {

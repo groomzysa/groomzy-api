@@ -1,3 +1,4 @@
+import { GraphQLYogaError } from "@graphql-yoga/node";
 import { IContext } from "../../types";
 
 export const providerServicesQuery = async (
@@ -6,6 +7,7 @@ export const providerServicesQuery = async (
   ctx: IContext
 ) => {
   const { providerId } = providerServicesArgs;
+
   try {
     return ctx.prisma.provider.findFirst({
       where: {
@@ -21,6 +23,6 @@ export const providerServicesQuery = async (
       },
     });
   } catch (error) {
-    throw new Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

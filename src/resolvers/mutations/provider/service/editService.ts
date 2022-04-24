@@ -1,7 +1,8 @@
+import { GraphQLYogaError } from "@graphql-yoga/node";
 import { Category } from "@prisma/client";
 import jwt from "jsonwebtoken";
 
-import { IContext } from "../../types";
+import { IContext } from "../../../types";
 import { IEditServiceArgs } from "./types";
 
 export const editServiceMutation = async (
@@ -59,24 +60,24 @@ export const editServiceMutation = async (
     }
 
     // Update in house call
-    if (inHouse) {
-      serviceToUpdate.inHouse = inHouse;
-    }
+    serviceToUpdate.inHouse = inHouse ?? false;
 
     // Check if an auth header is set.
     const authorizationHeader =
-      ctx.request.headers["x-access-token"] ||
-      ctx.request.headers.authorization;
+      ctx.request.headers.get("x-access-token") ||
+      ctx.request.headers.get("authorization");
 
     // TODO: Should we throw an Error instead?
 
     if (!authorizationHeader) {
-      throw new Error("Looks like you are not signed in. Please sign in.");
+      throw new GraphQLYogaError(
+        "Looks like you are not signed in. Please sign in."
+      );
     }
 
     // Check if the JWT secret key is defined.
     if (!process.env.GROOMZY_JWT_SECRET) {
-      throw Error("Internal server error.");
+      throw new GraphQLYogaError("Internal server error.");
     }
 
     // Get the token.
@@ -86,42 +87,28 @@ export const editServiceMutation = async (
 
     const { id: providerId, role } = signedIn as { id: number; role: string };
 
-    if (serviceCategory && serviceCategory.id) {
-      await ctx.prisma.service.update({
-        where: {
-          id: serviceId,
-        },
-        data: {
-          ...serviceToUpdate,
-          serviceProviderCategories: {
-            create: {
-              category: {
-                connect: {
-                  id: serviceCategory.id,
-                },
-              },
-              provider: {
-                connect: {
-                  id: providerId,
-                },
-              },
+    await ctx.prisma.service.update({
+      where: {
+        id: serviceId,
+      },
+      data: {
+        ...serviceToUpdate,
+        serviceProviderCategories: {
+          connect: {
+            categoryId_serviceId_providerId: {
+              categoryId: serviceCategory.id,
+              providerId,
+              serviceId,
             },
           },
         },
-      });
-    } else {
-      await ctx.prisma.service.update({
-        where: {
-          id: serviceId,
-        },
-        data: serviceToUpdate,
-      });
-    }
+      },
+    });
 
     return {
       message: "Service updated successfully",
     };
   } catch (error) {
-    throw new Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

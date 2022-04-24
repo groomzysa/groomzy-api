@@ -1,15 +1,16 @@
 import jwt from "jsonwebtoken";
 
-import { IClientDeleteBookArgs } from "./types";
+import { IClientCancelBookingArgs } from "./types";
 
-import { IContext } from "../../types";
+import { IContext } from "../../../types";
+import { GraphQLYogaError } from "@graphql-yoga/node";
 
-export const clientBookDeleteMutation = async (
+export const clientBookingCancelMutation = async (
   _: any,
-  deleteBookInput: IClientDeleteBookArgs,
+  clientCancelBookingInput: IClientCancelBookingArgs,
   ctx: IContext
 ) => {
-  const { bookingId, delete: deleteBooking } = deleteBookInput;
+  const { bookingId, cancel } = clientCancelBookingInput;
 
   try {
     // Booking id is required
@@ -19,18 +20,20 @@ export const clientBookDeleteMutation = async (
 
     // Check if an auth header is set.
     const authorizationHeader =
-      ctx.request.headers["x-access-token"] ||
-      ctx.request.headers.authorization;
+      ctx.request.headers.get("x-access-token") ||
+      ctx.request.headers.get("authorization");
 
     // TODO: Should we throw an Error instead?
 
     if (!authorizationHeader) {
-      throw new Error("Looks like you are not signed in. Please sign in.");
+      throw new GraphQLYogaError(
+        "Looks like you are not signed in. Please sign in."
+      );
     }
 
     // Check if the JWT secret key is defined.
     if (!process.env.GROOMZY_JWT_SECRET) {
-      throw Error("Internal server error.");
+      throw new GraphQLYogaError("Internal server error.");
     }
 
     // Get the token.
@@ -40,9 +43,9 @@ export const clientBookDeleteMutation = async (
 
     const { id: clientId, role } = signedIn as { id: number; role: string };
 
-    if (!deleteBooking) {
-      throw Error(
-        "Eisther Something went wrong while trying to delete the booking."
+    if (!cancel) {
+      throw new GraphQLYogaError(
+        "Eisther Something went wrong while trying to cancel the booking."
       );
     }
 
@@ -51,13 +54,13 @@ export const clientBookDeleteMutation = async (
         id: bookingId,
       },
       data: {
-        status: "Deleted",
+        status: "Cancelled",
       },
     });
     return {
-      message: "Booking deleted successfully.",
+      message: "Booking cancelled successfully.",
     };
   } catch (error) {
-    throw new Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

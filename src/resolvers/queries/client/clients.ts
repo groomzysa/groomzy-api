@@ -1,3 +1,4 @@
+import { GraphQLYogaError } from "@graphql-yoga/node";
 import { IContext } from "../../types";
 
 export const clientsQuery = async (_: any, __: any, ctx: IContext) => {
@@ -8,6 +9,6 @@ export const clientsQuery = async (_: any, __: any, ctx: IContext) => {
       },
     });
   } catch (error) {
-    throw Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

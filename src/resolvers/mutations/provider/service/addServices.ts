@@ -1,6 +1,7 @@
+import { GraphQLYogaError } from "@graphql-yoga/node";
 import jwt from "jsonwebtoken";
 
-import { IContext } from "../../types";
+import { IContext } from "../../../types";
 import { IAddServiceArgs } from "./types";
 
 export const addServiceMutation = async (
@@ -21,48 +22,50 @@ export const addServiceMutation = async (
   try {
     // Title is required
     if (!title) {
-      throw new Error("Title is required.");
+      throw new GraphQLYogaError("Title is required.");
     }
 
     // Category is required
     if (!category) {
-      throw new Error("Category is required.");
+      throw new GraphQLYogaError("Category is required.");
     }
 
     // Price is required
     if (!price) {
-      throw new Error("Price is required.");
+      throw new GraphQLYogaError("Price is required.");
     }
 
     // Description is required
     if (!description) {
-      throw new Error("Description is required.");
+      throw new GraphQLYogaError("Description is required.");
     }
 
     // Duration is required
     if (!duration) {
-      throw new Error("Duration is required.");
+      throw new GraphQLYogaError("Duration is required.");
     }
 
     // Duration unit is required
     if (!durationUnit) {
-      throw new Error("Duration unit is required.");
+      throw new GraphQLYogaError("Duration unit is required.");
     }
 
     // Check if an auth header is set.
     const authorizationHeader =
-      ctx.request.headers["x-access-token"] ||
-      ctx.request.headers.authorization;
+      ctx.request.headers.get("x-access-token") ||
+      ctx.request.headers.get("authorization");
 
     // TODO: Should we throw an Error instead?
 
     if (!authorizationHeader) {
-      throw new Error("Looks like you are not signed in. Please sign in.");
+      throw new GraphQLYogaError(
+        "Looks like you are not signed in. Please sign in."
+      );
     }
 
     // Check if the JWT secret key is defined.
     if (!process.env.GROOMZY_JWT_SECRET) {
-      throw Error("Internal server error.");
+      throw new GraphQLYogaError("Internal server error.");
     }
 
     // Get the token.
@@ -107,6 +110,6 @@ export const addServiceMutation = async (
       message: "Service added successfully",
     };
   } catch (error) {
-    throw new Error(error.message);
+    throw new GraphQLYogaError(error.message);
   }
 };

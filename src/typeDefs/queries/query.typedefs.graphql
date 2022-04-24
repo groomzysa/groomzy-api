@@ -9,6 +9,4 @@ type Query {
   providerServices(providerId: Int!): Provider!
   providerStaffs(providerId: Int!): Provider!
   providerOperatingTimes(providerId: Int!): Provider!
-  services: [Service!]!
-  staffs: [Staff!]!
 }
