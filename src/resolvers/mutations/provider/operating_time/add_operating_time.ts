@@ -2,7 +2,7 @@ import { GraphQLYogaError } from "@graphql-yoga/node";
 import { BusinessDay } from "@prisma/client";
 import jwt from "jsonwebtoken";
 
-import { IContext } from "../../../types";
+import { IContext } from "resolvers/types";
 import { IAddOperatingTimeArgs } from "./types";
 
 export const addOperatingTimeMutation = async (

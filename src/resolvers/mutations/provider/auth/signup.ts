@@ -1,11 +1,10 @@
 import { validate } from "isemail";
 import bcrypt from "bcrypt";
-
-import { IContext } from "../../../types";
-import { ISignupProviderArgs } from "./types";
-import { mailContent } from "../../../../utils";
-import { transport } from "../../../../utils";
 import { GraphQLYogaError } from "@graphql-yoga/node";
+
+import { IContext } from "resolvers/types";
+import { mailContent, emailTransport } from "utils/mailServices";
+import { ISignupProviderArgs } from "./types";
 
 const messagingApi = require("@cmdotcom/text-sdk");
 
@@ -104,7 +103,7 @@ export const signupProviderMutation = async (
         to: provider.email,
       };
 
-      await transport.sendMail(serviceProviderEmail);
+      await emailTransport.sendMail(serviceProviderEmail);
     } catch (e) {
       providerSendEmailErrorMessage = `We tried to send an email to ${email} but it failed.
 			This may be due to an email provided not working.

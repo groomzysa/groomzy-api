@@ -1,9 +1,8 @@
 import { isEmpty } from "lodash";
-
-import { IContext } from "@resolvers/types";
-
-import { IProvidersArgs } from "./types";
 import { GraphQLYogaError } from "@graphql-yoga/node";
+
+import { IContext } from "resolvers/types";
+import { IProvidersArgs } from "./types";
 
 export const providersQuery = async (
   _: any,

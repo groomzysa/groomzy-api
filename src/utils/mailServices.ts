@@ -1,7 +1,7 @@
 import { createTransport } from "nodemailer";
 import _ from "lodash";
 
-const transport = createTransport({
+export const emailTransport = createTransport({
   host: "smtp.mailtrap.io",
   port: 2525,
   auth: {
@@ -10,7 +10,7 @@ const transport = createTransport({
   },
 });
 
-// const transport = createTransport({
+// const emailTransport = createTransport({
 //   auth: {
 //     pass: process.env.GROOMZY_MAIL_PASSWORD,
 //     user: process.env.GROOMZY_MAIL_USER,
@@ -19,7 +19,7 @@ const transport = createTransport({
 //   port: Number(process.env.GROOMZY_MAIL_PORT),
 // });
 
-const mailContent = (givenName: string, message: string) => `
+export const mailContent = (givenName: string, message: string) => `
 <!DOCTYPE html>
 <html>
   <head>
@@ -61,4 +61,3 @@ const mailContent = (givenName: string, message: string) => `
   </body>
 </html>
 `;
-export { transport, mailContent };

@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 
-import { IClientCancelBookingArgs } from "./types";
-
-import { IContext } from "../../../types";
 import { GraphQLYogaError } from "@graphql-yoga/node";
+
+import { IContext } from "resolvers/types";
+import { IClientCancelBookingArgs } from "./types";
 
 export const clientBookingCancelMutation = async (
   _: any,

@@ -1,5 +1,5 @@
 import { GraphQLYogaError } from "@graphql-yoga/node";
-import { IContext } from "../../types";
+import { IContext } from "resolvers/types";
 
 export const providerServicesQuery = async (
   _: any,

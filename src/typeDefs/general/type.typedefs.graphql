@@ -89,7 +89,7 @@ type Client {
   # Client phone number
   phoneNumber: String
   # Client address
-  addresses: Address
+  address: Address
   # Client token
   token: String
   # Client role

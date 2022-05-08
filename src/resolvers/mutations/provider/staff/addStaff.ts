@@ -1,7 +1,7 @@
 import { GraphQLYogaError } from "@graphql-yoga/node";
 import jwt from "jsonwebtoken";
 
-import { IContext } from "../../../types";
+import { IContext } from "resolvers/types";
 import { IAddStaffArgs } from "./types";
 
 export const addStaffMutation = async (

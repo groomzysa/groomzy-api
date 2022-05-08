@@ -8,12 +8,8 @@
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": "./src",
-    "rootDir": "./src",
-    "paths": {
-      "*": ["node_modules/*"],
-      "@resolvers/*":["./resolvers/*"],
-      "@typeDefs/*":["./typeDefs/*"],
-      "@utils/*":["./utils/*"],
-    }
-  }
+  },
+  "include": [
+    "src"
+  ]
 }
