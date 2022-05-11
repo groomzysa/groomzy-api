@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { GraphQLYogaError } from "@graphql-yoga/node";
 
 import { IContext } from "resolvers/types";
-import { mailContent, emailTransport } from "utils/mailServices";
+import { emailTransport, mailContent } from "utils";
 import { ISignupClientArgs } from "./types";
 
 export const signupClientMutation = async (

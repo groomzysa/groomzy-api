@@ -123,7 +123,7 @@ type Mutation {
   ): Message!
 
   # ********** Send email *********** #
-  sendEmail(
+  sendMail(
     fullName: String!
     subject: String!
     email: String!

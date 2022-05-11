@@ -1,4 +1,4 @@
-export interface ISendEmailArgs {
+export interface ISendMailArgs {
   fullName: string;
   subject: string;
   email: string;

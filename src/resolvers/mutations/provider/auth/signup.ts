@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { GraphQLYogaError } from "@graphql-yoga/node";
 
 import { IContext } from "resolvers/types";
-import { mailContent, emailTransport } from "utils/mailServices";
+import { mailContent, emailTransport } from "utils";
 import { ISignupProviderArgs } from "./types";
 
 const messagingApi = require("@cmdotcom/text-sdk");

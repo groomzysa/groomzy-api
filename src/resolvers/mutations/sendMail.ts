@@ -1,13 +1,13 @@
 import { validate } from "isemail";
 import { GraphQLYogaError } from "@graphql-yoga/node";
 
-import { mailContent, emailTransport } from "utils/mailServices";
+import { mailContent, emailTransport } from "utils";
 
-import { ISendEmailArgs } from "./types";
+import { ISendMailArgs } from "./types";
 
-export const sendEmailMutation = async (
+export const sendMailMutation = async (
   _: any,
-  sendEmailArgs: ISendEmailArgs,
+  sendEmailArgs: ISendMailArgs,
   __: any
 ) => {
   const { fullName, message, subject } = sendEmailArgs;
@@ -28,13 +28,16 @@ export const sendEmailMutation = async (
     // Make email lower case and trim the white spaces.
     email = email.toLocaleLowerCase().trim();
 
-    const contentEmail = mailContent(fullName, message);
+    const contentEmail = mailContent(
+      `Groomzy: A query from ${fullName}`,
+      message
+    );
 
     try {
       const clientEmail = {
         from: email,
         html: contentEmail,
-        subject: subject,
+        subject: `New Query: ${subject}`,
         to: "info@groomzy.co.za",
       };
 

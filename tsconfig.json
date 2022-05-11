@@ -8,8 +8,14 @@
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": "./src",
+    "rootDir": "./",
+    "paths": {
+      "node_modules/*": ["node_modules/*"],
+      "utils/*":["./src/utils/*"]
+    }
   },
   "include": [
-    "src"
+    "./node_modules",
+    "./src"
   ]
 }
