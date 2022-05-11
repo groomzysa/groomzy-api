@@ -2,7 +2,7 @@ import { GraphQLYogaError } from "@graphql-yoga/node";
 import { Category } from "@prisma/client";
 import jwt from "jsonwebtoken";
 
-import { IContext } from "../../../types";
+import { IContext } from "resolvers/types";
 import { IEditServiceArgs } from "./types";
 
 export const editServiceMutation = async (

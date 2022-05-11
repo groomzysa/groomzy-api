@@ -121,4 +121,12 @@ type Mutation {
     rate: Float!
     comment: String
   ): Message!
+
+  # ********** Send email *********** #
+  sendMail(
+    fullName: String!
+    subject: String!
+    email: String!
+    message: String!
+  ): Message!
 }

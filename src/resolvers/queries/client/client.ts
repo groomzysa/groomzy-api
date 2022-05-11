@@ -1,22 +1,9 @@
-import { GraphQLYogaError } from "@graphql-yoga/node";
 import jwt from "jsonwebtoken";
-
+import { GraphQLYogaError } from "@graphql-yoga/node";
 import { IContext } from "resolvers/types";
-import { IDeleteStaffArgs } from "./types";
 
-export const deleteStaffMutation = async (
-  _: any,
-  deleteStaffInput: IDeleteStaffArgs,
-  ctx: IContext
-) => {
-  const { staffId } = deleteStaffInput;
-
+export const clientQuery = async (_: any, __: any, ctx: IContext) => {
   try {
-    // Staff id is required
-    if (!staffId) {
-      throw new GraphQLYogaError("Staff id is required.");
-    }
-
     // Check if an auth header is set.
     const authorizationHeader =
       ctx.request.headers.get("x-access-token") ||
@@ -25,9 +12,7 @@ export const deleteStaffMutation = async (
     // TODO: Should we throw an Error instead?
 
     if (!authorizationHeader) {
-      throw new GraphQLYogaError(
-        "Looks like you are not signed in. Please sign in."
-      );
+      return null;
     }
 
     // Check if the JWT secret key is defined.
@@ -40,17 +25,12 @@ export const deleteStaffMutation = async (
     // Verify the token if it is valid.
     const signedIn = jwt.verify(token, process.env.GROOMZY_JWT_SECRET);
 
-    const { id: providerId, role } = signedIn as { id: number; role: string };
+    const { id } = signedIn as { id: number; role: string };
 
-    await ctx.prisma.staff.delete({
-      where: {
-        id: staffId,
-      },
+    return ctx.prisma.client.findUnique({
+      where: { id },
+      include: { address: true },
     });
-
-    return {
-      message: "Service deleted successfully",
-    };
   } catch (error) {
     throw new GraphQLYogaError(error.message);
   }

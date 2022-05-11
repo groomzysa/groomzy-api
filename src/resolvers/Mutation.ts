@@ -51,6 +51,8 @@ import { editProfileProviderMutation } from "./mutations/provider/auth/editProfi
 import { providerBookingDoneMutation } from "./mutations/provider/booking/booking_done";
 import { providerBookingCancelMutation } from "./mutations/provider/booking/booking_cancel";
 import { clientBookingRateMutation } from "./mutations/client/booking/booking_rate";
+import { ISendMailArgs } from "./mutations/types";
+import { sendMailMutation } from "./mutations/sendMail";
 
 export default {
   /**
@@ -274,4 +276,12 @@ export default {
   ) => {
     return clientBookingRateMutation(_, clientRateBooingkArgs, ctx);
   },
+
+  /**
+   *
+   * Send mail mutation
+   *
+   */
+  sendMail: async (_: any, sendEmailArgs: ISendMailArgs, __: any) =>
+    sendMailMutation(_, sendEmailArgs, __),
 };

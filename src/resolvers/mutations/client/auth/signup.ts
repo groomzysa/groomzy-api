@@ -1,11 +1,10 @@
 import { validate } from "isemail";
 import bcrypt from "bcrypt";
-
-import { IContext } from "../../../types";
-import { ISignupClientArgs } from "./types";
-import { mailContent } from "../../../../utils";
-import { transport } from "../../../../utils";
 import { GraphQLYogaError } from "@graphql-yoga/node";
+
+import { IContext } from "resolvers/types";
+import { emailTransport, mailContent } from "utils";
+import { ISignupClientArgs } from "./types";
 
 export const signupClientMutation = async (
   _: any,
@@ -95,7 +94,7 @@ export const signupClientMutation = async (
         to: client.email,
       };
 
-      await transport.sendMail(clientEmail);
+      await emailTransport.sendMail(clientEmail);
     } catch (e) {
       clientSendEmailErrorMessage = `We tried to send an email to ${email} but it failed.
 			This may be due to an email provided not working.

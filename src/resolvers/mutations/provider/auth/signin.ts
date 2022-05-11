@@ -1,10 +1,10 @@
 import { validate } from "isemail";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
-import { IContext } from "../../../types";
-import { ISignInProviderArgs } from "./types";
 import { GraphQLYogaError } from "@graphql-yoga/node";
+
+import { IContext } from "resolvers/types";
+import { ISignInProviderArgs } from "./types";
 
 export const signinProviderMutation = async (
   _: any,

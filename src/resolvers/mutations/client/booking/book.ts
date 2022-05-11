@@ -1,9 +1,8 @@
 import jwt from "jsonwebtoken";
-
-import { IClientBookArgs } from "./types";
-
-import { IContext } from "../../../types";
 import { GraphQLYogaError } from "@graphql-yoga/node";
+
+import { IContext } from "resolvers/types";
+import { IClientBookArgs } from "./types";
 
 export const clientBookMutation = async (
   _: any,
