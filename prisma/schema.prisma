@@ -43,23 +43,63 @@ enum UserStatus {
 
 // Models (Simple database tables)
 
+// Provider social model
+model ProviderSocial {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  url        String   @db.VarChar(255)
+  provider   Provider @relation(fields: [providerId], references: [id])
+  providerId Int
+}
+
+// Provider gallery model
+model ProviderGallery {
+  id         Int      @id @default(autoincrement())
+  fileName   String   @db.VarChar(255)
+  name       String   @db.VarChar(255)
+  url        String   @db.VarChar(255)
+  provider   Provider @relation(fields: [providerId], references: [id])
+  providerId Int
+}
+
+// Provider profile model
+model ProviderProfile {
+  id                     Int     @id @default(autoincrement())
+  tradingName            String  @db.VarChar(255)
+  tradingStreetNumber    String  @db.VarChar(255)
+  tradingStreetName      String  @db.VarChar(255)
+  tradingSuburbName      String  @db.VarChar(255)
+  tradingCityName        String  @db.VarChar(255)
+  tradingProvinceName    String  @db.VarChar(255)
+  tradingAreaCode        String  @db.VarChar(255)
+  tradingProfileImageUrl String? @db.VarChar(255)
+  tradingLatitude        Float?
+  tradingLongitude       Float?
+
+  // A profile may belong to a provider
+  provider   Provider @relation(fields: [providerId], references: [id])
+  providerId Int      @unique
+}
+
 // Address model
 model Address {
-  id           Int     @id @default(autoincrement())
-  streetNumber String? @db.VarChar(255)
-  streetName   String? @db.VarChar(255)
-  suburbName   String? @db.VarChar(255)
-  cityName     String? @db.VarChar(255)
-  provinceName String? @db.VarChar(255)
-  areaCode     String? @db.VarChar(255)
+  id           Int    @id @default(autoincrement())
+  streetNumber String @db.VarChar(255)
+  streetName   String @db.VarChar(255)
+  suburbName   String @db.VarChar(255)
+  cityName     String @db.VarChar(255)
+  provinceName String @db.VarChar(255)
+  areaCode     String @db.VarChar(255)
   latitude     Float?
   longitude    Float?
 
   // An address may belong to a client
-  client Client?
+  client   Client @relation(fields: [clientId], references: [id])
+  clientId Int    @unique
 
   // An address may belong to a provider
-  provider Provider?
+  provider   Provider @relation(fields: [providerId], references: [id])
+  providerId Int      @unique // relati
 }
 
 // Booking model
@@ -105,15 +145,15 @@ model Category {
 
 // Client model
 model Client {
-  id          Int    @id @default(autoincrement())
-  email       String @unique @db.VarChar(100)
-  fullName    String @db.VarChar(100)
-  password    String @db.VarChar(255)
-  phoneNumber String @db.VarChar(20)
+  id              Int     @id @default(autoincrement())
+  email           String  @unique @db.VarChar(100)
+  fullName        String  @db.VarChar(100)
+  password        String  @db.VarChar(255)
+  phoneNumber     String? @db.VarChar(20)
+  profileImageUrl String? @db.VarChar(255)
 
   // A cleint may have an address
-  address   Address @relation(fields: [addressId], references: [id])
-  addressId Int     @unique
+  address Address?
 
   // A client may have bookings
   bookings Booking[]
@@ -180,15 +220,15 @@ model Service {
 
 // Provider model
 model Provider {
-  id          Int    @id @default(autoincrement())
-  email       String @unique @db.VarChar(100)
-  fullName    String @db.VarChar(100)
-  password    String @db.VarChar(255)
-  phoneNumber String @db.VarChar(20)
+  id              Int     @id @default(autoincrement())
+  email           String  @unique @db.VarChar(100)
+  fullName        String  @db.VarChar(100)
+  password        String  @db.VarChar(255)
+  phoneNumber     String  @db.VarChar(20)
+  profileImageUrl String? @db.VarChar(255)
 
   // A provider may have an address
-  address   Address @relation(fields: [addressId], references: [id])
-  addressId Int     @unique
+  address Address?
 
   // A provider may have bookings
   bookings Booking[]
@@ -201,6 +241,15 @@ model Provider {
 
   // A provider operating day times
   dayTimes DayTime[]
+
+  // A provider socials
+  socials ProviderSocial[]
+
+  // A provider gallery
+  gallery ProviderGallery[]
+
+  // A provider profile
+  profile ProviderProfile?
 }
 
 // ServiceProviderCategory model

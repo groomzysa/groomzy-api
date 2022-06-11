@@ -61,20 +61,12 @@ export const signupProviderMutation = async (
     // Hash password before stored in the database.
     password = await bcrypt.hash(password, 10);
 
-    // A service provider address is not required at signing up
-    // but a service provider can update his/her address
-    // hence why we create as blank on sign up.
-    const address = await ctx.prisma.address.create({
-      data: {},
-    });
-
     const provider = await ctx.prisma.provider.create({
       data: {
         email,
         fullName,
         password,
         phoneNumber,
-        addressId: address.id,
       },
     });
 
@@ -144,7 +136,7 @@ export const signupProviderMutation = async (
     }
 
     return {
-      message: `All set. Now you can sign in using the credentials you provided sent to: ${provider.email}. Please check your spam folder if email not recieved and report it as "not spam".`,
+      message: `All set. Now you can sign in using the credentials you provided sent to: ${provider.email}. Please check your spam folder if email not recieved and report it as "not spam". You will be redirected to signing in.`,
     };
   } catch (error) {
     throw new GraphQLYogaError(error.message);

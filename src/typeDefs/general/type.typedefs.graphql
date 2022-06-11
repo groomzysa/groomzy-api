@@ -1,21 +1,69 @@
 # ***************** Query return types ***************** #
 
+#Provider social type
+type ProviderSocial {
+  # Provider social id
+  id: Int!
+  # Provider social name
+  name: String!
+  # Provider social url
+  url: String!
+}
+
+# Provider gallery type
+type ProviderGallery {
+  # Provider gallery id
+  id: Int!
+  # Provider gallery file name
+  fileName: String!
+  # Provider gallery name
+  name: String!
+  # Provider gallery url
+  url: String!
+}
+
+# Provider profile type
+type ProviderProfile {
+  # Provider profile id
+  id: Int!
+  # Provider profile trading name
+  tradingName: String!
+  # Provider profile trading streen number
+  tradingStreetNumber: String
+  # Provider profile trading streen name
+  tradingStreetName: String
+  # Provider profile trading streen number
+  tradingSuburbName: String!
+  # Provider profile trading city name
+  tradingCityName: String!
+  # Provider profile trading province name
+  tradingProvinceName: String!
+  # Provider profile trading area code
+  tradingAreaCode: String!
+  # Provider profile trading profile image
+  tradingProfileImageUrl: String
+  # Provider profile trading latitude
+  tradingLatitude: Float
+  # Provider profile trading longitude
+  tradingLongitude: Float
+}
+
 # Address type
 type Address {
   # Address identifier
   id: Int!
   # Street number
-  streetNumber: String
+  streetNumber: String!
   # Street name
-  streetName: String
+  streetName: String!
   # Suburb name
-  suburbName: String
+  suburbName: String!
   # City name
-  cityName: String
+  cityName: String!
   # Province name
-  provinceName: String
+  provinceName: String!
   # Area code
-  areaCode: String
+  areaCode: String!
   # Location latitude
   latitude: Float
   # Location longitude
@@ -94,6 +142,8 @@ type Client {
   token: String
   # Client role
   role: String!
+  # Client profile image
+  profileImageUrl: String
   # Client bookings
   bookings: [Booking!]
 }
@@ -110,6 +160,12 @@ type Provider {
   phoneNumber: String
   # Provider address
   address: Address
+  # Provider address
+  profile: ProviderProfile
+  # Provider address
+  socials: [ProviderSocial!]
+  # Provider address
+  gallery: [ProviderGallery!]
   # Provider bookings
   bookings: [Booking!]
   # Provider staffs
@@ -120,6 +176,8 @@ type Provider {
   token: String
   # Provider role
   role: String!
+  # Provider profile image
+  profileImageUrl: String
   # Provider service category
   serviceProviderCategories: [ServiceProviderCategory!]
 }
@@ -199,4 +257,46 @@ type Booking {
 type Message {
   # Message
   message: String!
+}
+
+type ServiceMessage {
+  # Message
+  message: Message!
+  # Service
+  service: Service!
+}
+
+type OperatingTimeMessage {
+  # Message
+  message: Message!
+  # Operating time
+  operatingTime: DayTime!
+}
+
+type StaffMessage {
+  # Message
+  message: Message!
+  # Staff
+  staff: Staff!
+}
+
+type ProviderProfileMessage {
+  # Message
+  message: Message!
+  # Provider profile
+  profile: ProviderProfile!
+}
+
+type ProviderSocialMessage {
+  # Message
+  message: Message!
+  # Provider social
+  social: ProviderSocial!
+}
+
+type ProviderGalleryMessage {
+  # Message
+  message: Message!
+  # Provider gallery
+  gallery: ProviderGallery!
 }

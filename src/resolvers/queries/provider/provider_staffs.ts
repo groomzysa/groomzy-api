@@ -8,12 +8,9 @@ export const providerStaffsQuery = async (
 ) => {
   const { providerId } = providerStaffsArgs;
   try {
-    return ctx.prisma.provider.findFirst({
+    return ctx.prisma.staff.findMany({
       where: {
-        id: providerId,
-      },
-      select: {
-        staffs: true,
+        providerId,
       },
     });
   } catch (error) {

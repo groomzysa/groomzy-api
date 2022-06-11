@@ -9,19 +9,35 @@ export const providerServicesQuery = async (
   const { providerId } = providerServicesArgs;
 
   try {
-    return ctx.prisma.provider.findFirst({
+    return ctx.prisma.service.findMany({
       where: {
-        id: providerId,
+        serviceProviderCategories: {
+          every: {
+            providerId,
+          },
+        },
       },
-      select: {
+      include: {
         serviceProviderCategories: {
           select: {
-            service: true,
             category: true,
           },
         },
       },
     });
+    // return ctx.prisma.provider.findFirst({
+    //   where: {
+    //     id: providerId,
+    //   },
+    //   select: {
+    //     serviceProviderCategories: {
+    //       select: {
+    //         service: true,
+    //         category: true,
+    //       },
+    //     },
+    //   },
+    // });
   } catch (error) {
     throw new GraphQLYogaError(error.message);
   }

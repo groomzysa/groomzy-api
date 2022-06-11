@@ -8,19 +8,29 @@ export const providerOperatingTimesQuery = async (
 ) => {
   const { providerId } = providerOperatingTimesArgs;
   try {
-    return ctx.prisma.provider.findFirst({
+    return ctx.prisma.dayTime.findMany({
       where: {
-        id: providerId,
+        providerId,
       },
-      select: {
-        dayTimes: {
-          include: {
-            day: true,
-            time: true,
-          },
-        },
+      include: {
+        day: true,
+        time: true,
       },
     });
+
+    // return ctx.prisma.provider.findFirst({
+    //   where: {
+    //     id: providerId,
+    //   },
+    //   select: {
+    //     dayTimes: {
+    //       include: {
+    //         day: true,
+    //         time: true,
+    //       },
+    //     },
+    //   },
+    // });
   } catch (error) {
     throw new GraphQLYogaError(error.message);
   }

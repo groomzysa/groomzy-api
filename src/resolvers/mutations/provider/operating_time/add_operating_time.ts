@@ -1,7 +1,7 @@
 import { GraphQLYogaError } from "@graphql-yoga/node";
 import { BusinessDay } from "@prisma/client";
-import jwt from "jsonwebtoken";
 
+import { tokenAuthUser } from "utils";
 import { IContext } from "resolvers/types";
 import { IAddOperatingTimeArgs } from "./types";
 
@@ -10,6 +10,7 @@ export const addOperatingTimeMutation = async (
   addOperatingTimeInput: IAddOperatingTimeArgs,
   ctx: IContext
 ) => {
+  const { id: providerId } = tokenAuthUser(ctx);
   const { day, startTime, endTime } = addOperatingTimeInput;
 
   try {
@@ -29,31 +30,6 @@ export const addOperatingTimeMutation = async (
     }
 
     try {
-      // Check if an auth header is set.
-      const authorizationHeader =
-        ctx.request.headers.get("x-access-token") ||
-        ctx.request.headers.get("authorization");
-
-      // TODO: Should we throw an Error instead?
-
-      if (!authorizationHeader) {
-        throw new GraphQLYogaError(
-          "Looks like you are not signed in. Please sign in."
-        );
-      }
-
-      // Check if the JWT secret key is defined.
-      if (!process.env.GROOMZY_JWT_SECRET) {
-        throw new GraphQLYogaError("Internal server error.");
-      }
-
-      // Get the token.
-      const token = authorizationHeader.split(" ")[1];
-      // Verify the token if it is valid.
-      const signedIn = jwt.verify(token, process.env.GROOMZY_JWT_SECRET);
-
-      const { id: providerId, role } = signedIn as { id: number; role: string };
-
       const _day = await ctx.prisma.day.findUnique({
         where: {
           day: day as BusinessDay,
@@ -73,7 +49,7 @@ export const addOperatingTimeMutation = async (
         throw new GraphQLYogaError(`Business day ${day} already exist`);
       }
 
-      await ctx.prisma.dayTime.create({
+      const operatingTime = await ctx.prisma.dayTime.create({
         data: {
           day: {
             connect: {
@@ -92,10 +68,17 @@ export const addOperatingTimeMutation = async (
             },
           },
         },
+        include: {
+          day: true,
+          time: true,
+        },
       });
 
       return {
-        message: "Day time added successfully",
+        message: {
+          message: "Day time added successfully",
+        },
+        operatingTime,
       };
     } catch (error) {
       throw new GraphQLYogaError(error.message);

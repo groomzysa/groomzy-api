@@ -13,6 +13,7 @@ prisma/migrations/
 
 # Secret
 .env
+groomzy-key.json
 
 # now
 .now

@@ -11,10 +11,7 @@ import {
   ISigninClientArgs,
   ISignupClientArgs,
 } from "../resolvers/mutations/client/auth/types";
-import {
-  IEditProfileProviderArgs,
-  ISignupProviderArgs,
-} from "./mutations/provider/auth/types";
+import { ISignupProviderArgs } from "./mutations/provider/auth/types";
 import {
   IProviderCancelBookingArgs,
   IProviderDoneBookingArgs,
@@ -23,18 +20,18 @@ import { signupProviderMutation } from "./mutations/provider/auth/signup";
 import { signinClientMutation } from "./mutations/client/auth/signin";
 import { ISignInProviderArgs } from "./mutations/provider/auth/types";
 import { signinProviderMutation } from "./mutations/provider/auth/signin";
-import { addServiceMutation } from "./mutations/provider/service/addServices";
+import { addServiceMutation } from "./mutations/provider/service/add_service";
 import { IAddServiceArgs } from "./mutations/provider/service/types";
-import { addStaffMutation } from "./mutations/provider/staff/addStaff";
+import { addStaffMutation } from "./mutations/provider/staff/add_staff";
 import { IAddStaffArgs } from "./mutations/provider/staff/types";
 import { IDeleteServiceArgs } from "./mutations/provider/service/types";
-import { deleteServiceMutation } from "./mutations/provider/service/deleteService";
+import { deleteServiceMutation } from "./mutations/provider/service/delete_service";
 import { IDeleteStaffArgs } from "./mutations/provider/staff/types";
-import { deleteStaffMutation } from "./mutations/provider/staff/deleteStaff";
-import { editServiceMutation } from "./mutations/provider/service/editService";
+import { deleteStaffMutation } from "./mutations/provider/staff/delete_staff";
+import { editServiceMutation } from "./mutations/provider/service/edit_service";
 import { IEditServiceArgs } from "./mutations/provider/service/types";
 import { IEditStaffArgs } from "./mutations/provider/staff/types";
-import { editStaffMutation } from "./mutations/provider/staff/editStaff";
+import { editStaffMutation } from "./mutations/provider/staff/edit_staff";
 import { addOperatingTimeMutation } from "./mutations/provider/operating_time/add_operating_time";
 import {
   IAddOperatingTimeArgs,
@@ -47,12 +44,28 @@ import { clientBookMutation } from "./mutations/client/booking/book";
 import { clientBookingCompleteMutation } from "./mutations/client/booking/booking_complete";
 import { clientBookingCancelMutation } from "./mutations/client/booking/booking_cancel";
 import { clientBookingDeleteMutation } from "./mutations/client/booking/booking_delete";
-import { editProfileProviderMutation } from "./mutations/provider/auth/editProfile";
+import { editProfileMutation } from "./mutations/edit_profile";
 import { providerBookingDoneMutation } from "./mutations/provider/booking/booking_done";
 import { providerBookingCancelMutation } from "./mutations/provider/booking/booking_cancel";
 import { clientBookingRateMutation } from "./mutations/client/booking/booking_rate";
-import { ISendMailArgs } from "./mutations/types";
-import { sendMailMutation } from "./mutations/sendMail";
+import { IEditProfileArgs, ISendMailArgs } from "./mutations/types";
+import { sendMailMutation } from "./mutations/send_mail";
+import { addProviderProfileMutation } from "./mutations/provider/profile/add_profile";
+import { IAddProfileArgs } from "./mutations/provider/profile/types";
+import { addSocialMutation } from "./mutations/provider/social/add_social";
+import {
+  IAddSocialArgs,
+  IDeleteSocialArgs,
+  IEditSocialArgs,
+} from "./mutations/provider/social/types";
+import { editSocialMutation } from "./mutations/provider/social/edit_social";
+import { deleteSocialMutation } from "./mutations/provider/social/delete_social";
+import { addGalleryMutation } from "./mutations/provider/gallery/add_gallery";
+import {
+  IAddGalleryArgs,
+  IDeleteGalleryArgs,
+} from "./mutations/provider/gallery/types";
+import { deleteGalleryMutation } from "./mutations/provider/gallery/delete_gallery";
 
 export default {
   /**
@@ -88,14 +101,14 @@ export default {
   },
 
   /**
-   * Provider edit profile mutation
+   * Edit profile mutation
    */
-  editProfileProvider: async (
+  editProfile: async (
     _: any,
-    editProfileProviderArgs: IEditProfileProviderArgs,
+    editProfileArgs: IEditProfileArgs,
     ctx: IContext
   ) => {
-    return editProfileProviderMutation(_, editProfileProviderArgs, ctx);
+    return editProfileMutation(_, editProfileArgs, ctx);
   },
 
   /**
@@ -198,6 +211,68 @@ export default {
     ctx: IContext
   ) => {
     return deleteOperatingTimeMutation(_, deleteOperatingTimeArgs, ctx);
+  },
+
+  /**
+   * Add social mutation
+   */
+  addSocial: async (_: any, addSocialArgs: IAddSocialArgs, ctx: IContext) => {
+    return addSocialMutation(_, addSocialArgs, ctx);
+  },
+
+  /**
+   * Edit social mutation
+   */
+  editSocial: async (
+    _: any,
+    editSocialArgs: IEditSocialArgs,
+    ctx: IContext
+  ) => {
+    return editSocialMutation(_, editSocialArgs, ctx);
+  },
+
+  /**
+   * Delete social mutation
+   */
+  deleteSocial: async (
+    _: any,
+    deleteSocialArgs: IDeleteSocialArgs,
+    ctx: IContext
+  ) => {
+    return deleteSocialMutation(_, deleteSocialArgs, ctx);
+  },
+
+  /**
+   * Add gallery mutation
+   */
+  addGallery: async (
+    _: any,
+    addGalleryArgs: IAddGalleryArgs,
+    ctx: IContext
+  ) => {
+    return addGalleryMutation(_, addGalleryArgs, ctx);
+  },
+
+  /**
+   * Delete gallery mutation
+   */
+  deleteGallery: async (
+    _: any,
+    deleteGalleryArgs: IDeleteGalleryArgs,
+    ctx: IContext
+  ) => {
+    return deleteGalleryMutation(_, deleteGalleryArgs, ctx);
+  },
+
+  /**
+   * Add provider profile mutation
+   */
+  addProviderProfile: async (
+    _: any,
+    addProfileArgs: IAddProfileArgs,
+    ctx: IContext
+  ) => {
+    return addProviderProfileMutation(_, addProfileArgs, ctx);
   },
 
   /**

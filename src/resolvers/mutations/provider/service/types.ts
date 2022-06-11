@@ -15,5 +15,5 @@ export interface IEditServiceArgs {
 
 export interface IDeleteServiceArgs {
   serviceId: number;
-  category: string;
+  categoryId: number;
 }

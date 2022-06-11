@@ -55,20 +55,12 @@ export const signupClientMutation = async (
     // Hash password before stored in the database.
     password = await bcrypt.hash(password, 10);
 
-    // A client address is not required at signing up
-    // but a client can update his/her address
-    // hence why we create as blank on sign up.
-    const address = await ctx.prisma.address.create({
-      data: {},
-    });
-
     const client = await ctx.prisma.client.create({
       data: {
         email,
         fullName,
         password,
         phoneNumber,
-        addressId: address.id,
       },
     });
 
@@ -115,7 +107,7 @@ export const signupClientMutation = async (
     }
 
     return {
-      message: `All set. Now you can sign in using the credentials you provided sent to: ${client.email}. Please check your spam folder if email not recieved and report it as "not spam".`,
+      message: `All set. Now you can sign in using the credentials you provided sent to: ${client.email}. Please check your spam folder if email not recieved and report it as "not spam". You will be redirected to signing in.`,
     };
   } catch (error) {
     throw new GraphQLYogaError(error.message);

@@ -85,6 +85,9 @@ export const providersQuery = async (
 const providerNormalQuery = () => ({
   include: {
     address: true,
+    profile: true,
+    gallery: true,
+    socials: true,
     dayTimes: {
       include: {
         day: true,

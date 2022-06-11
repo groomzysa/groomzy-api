@@ -1,7 +1,7 @@
 # TO DO ADD MORE MUTATION TYPES
 
 type Mutation {
-  # ********** Provider signup ********** #
+  # ********** Provider signup ********************* #
   signupProvider(
     email: String!
     fullName: String!
@@ -9,8 +9,8 @@ type Mutation {
     phoneNumber: String!
   ): Message!
 
-  # *********** Provider edit profile ************#
-  editProfileProvider(
+  # *********** Provider edit profile ************** #
+  editProfile(
     fullName: String
     streetNumber: String
     streetName: String
@@ -20,12 +20,13 @@ type Mutation {
     areaCode: String
     latitude: Float
     longitude: Float
+    profileImage: File
   ): Message!
 
-  # ********** Provider signin ********** #
+  # ********** Provider signin ********************** #
   signinProvider(email: String!, password: String!, verify: String): Provider!
 
-  # ********** Provider Add service ********** #
+  # ********** Provider Add service ***************** #
   addService(
     category: String!
     title: String!
@@ -34,12 +35,12 @@ type Mutation {
     durationUnit: String!
     price: Float!
     inHouse: Boolean!
-  ): Message!
+  ): ServiceMessage!
 
-  # ********** Provider Delete service ********** #
-  deleteService(serviceId: Int!, category: String!): Message!
+  # ********** Provider Delete service ************** #
+  deleteService(serviceId: Int!, categoryId: Int!): ServiceMessage!
 
-  # ********** Provider Edit service ********** #
+  # ********** Provider Edit service **************** #
   editService(
     serviceId: Int!
     category: String
@@ -49,41 +50,71 @@ type Mutation {
     durationUnit: String
     price: Float
     inHouse: Boolean
-  ): Message!
+  ): ServiceMessage!
 
-  # ********** Provider Add staff ********** #
-  addStaff(fullName: String!): Message!
+  # ********** Provider Add staff ******************** #
+  addStaff(fullName: String!): StaffMessage!
 
-  # ********** Provider Delete staff ********** #
-  deleteStaff(staffId: Int!): Message!
+  # ********** Provider Delete staff ***************** #
+  deleteStaff(staffId: Int!): StaffMessage!
 
-  # ********** Provider Edit staff ********** #
-  editStaff(staffId: Int!, fullName: String): Message!
+  # ********** Provider Edit staff ******************* #
+  editStaff(staffId: Int!, fullName: String): StaffMessage!
 
-  # ********** Provider Add operating time ********** #
-  addOperatingTime(day: String!, startTime: String!, endTime: String!): Message!
+  # ********** Provider Add operating time *********** #
+  addOperatingTime(
+    day: String!
+    startTime: String!
+    endTime: String!
+  ): OperatingTimeMessage!
 
-  # ********** Provider Edit operating time ********** #
+  # ********** Provider Edit operating time *********** #
   editOperatingTime(
     dayTimeId: Int!
     day: String!
     startTime: String
     endTime: String
-  ): Message!
+  ): OperatingTimeMessage!
 
   # ********** Provider Delete operating time ********** #
-  deleteOperatingTime(dayTimeId: Int!): Message!
+  deleteOperatingTime(dayTimeId: Int!): OperatingTimeMessage!
 
-  # ********** Provider booking done ********** #
+  # ********** Provider Add social ********************* #
+  addSocial(name: String!, url: String!): ProviderSocialMessage!
+
+  # ********** Provider Edit social ******************** #
+  editSocial(socialId: Int!, name: String, url: String): ProviderSocialMessage!
+
+  # ********** Provider Delete social ****************** #
+  deleteSocial(socialId: Int!): ProviderSocialMessage!
+
+  # ********** Provider Add gallery ******************** #
+  addGallery(name: String!, galleryImageFile: File!): ProviderGalleryMessage!
+
+  # ********** Provider Delete gallery ***************** #
+  deleteGallery(galleryId: Int!, fileName: String!): ProviderGalleryMessage!
+
+  # ********** Provider Add profile ******************** #
+  addProviderProfile(
+    tradingName: String!
+    tradingStreetNumber: String!
+    tradingStreetName: String!
+    tradingSuburbName: String!
+    tradingCityName: String!
+    tradingProvinceName: String!
+    tradingAreaCode: String!
+    tradingLatitude: Float
+    tradingLongitude: Float
+    tradingProfileImage: File
+  ): ProviderProfileMessage!
+
+  # ********** Provider booking done ******************* #
   providerBookingDone(bookingId: Int!, done: Boolean!): Message!
 
-  # ********** Provider booking cancel ********** #
+  # ********** Provider booking cancel ***************** #
   providerBookingCancel(bookingId: Int!, cancel: Boolean!): Message!
 
-  # ********************************************************************************* #
-  # ********************************************************************************* #
-
-  # ********** Client signup ********** #
+  # ********** Client signup *************************** #
   signupClient(
     email: String!
     fullName: String!
@@ -91,10 +122,10 @@ type Mutation {
     phoneNumber: String!
   ): Message!
 
-  # ********** Client signin ********** #
+  # ********** Client signin *************************** #
   signinClient(email: String!, password: String!, verify: String): Client!
 
-  # ********** Client book ********** #
+  # ********** Client book ***************************** #
   clientBook(
     providerId: Int!
     serviceId: Int!
@@ -105,16 +136,16 @@ type Mutation {
     address: String
   ): Booking!
 
-  # ********** Client booking complete ********** #
+  # ********** Client booking complete ***************** #
   clientBookingComplete(bookingId: Int!, complete: Boolean!): Message!
 
-  # ********** Client booking cancel ********** #
+  # ********** Client booking cancel ******************* #
   clientBookingCancel(bookingId: Int!, cancel: Boolean!): Message!
 
-  # ********** Client booking delete ********** #
+  # ********** Client booking delete ******************* #
   clientBookingDelete(bookingId: Int!, delete: Boolean!): Message!
 
-  # ********** Client booking rate ********** #
+  # ********** Client booking rate ********************* #
   clientBookingRate(
     bookingId: Int!
     ratingId: Int
@@ -122,7 +153,7 @@ type Mutation {
     comment: String
   ): Message!
 
-  # ********** Send email *********** #
+  # ********** Send email ****************************** #
   sendMail(
     fullName: String!
     subject: String!

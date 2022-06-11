@@ -1,15 +1,57 @@
 # TO DO ADD MORE QUERY TYPES
 
 type Query {
+  # ********** Client **************************************** #
   client: Client
+
+  # ********** Clients *************************************** #
   clients: [Client!]!
+
+  # ********** Client bookings ******************************* #
   clientBookings(clientId: Int!): Client!
 
+  # ********** Provider ************************************** #
   provider: Provider
+
+  # ********** Providers ************************************* #
   providers(search: String, category: String): [Provider!]!
+
+  # ********** Provider ratings ****************************** #
   providerRatings(providerId: Int!): Provider!
+
+  # ********** Provider bookings ***************************** #
   providerBookings(providerId: Int!): Provider!
-  providerServices(providerId: Int!): Provider!
-  providerStaffs(providerId: Int!): Provider!
-  providerOperatingTimes(providerId: Int!): Provider!
+
+  # ********** Provider services ***************************** #
+  providerServices(providerId: Int!): [Service!]!
+
+  # ********** Provider staffs ******************************* #
+  providerStaffs(providerId: Int!): [Staff!]!
+
+  # ********** Provider operating times ********************** #
+  providerOperatingTimes(providerId: Int!): [DayTime!]!
+
+  # ********** Provider profile ****************************** #
+  providerProfile(providerId: Int!): ProviderProfile
+
+  # ********** Provider socials ****************************** #
+  providerSocials(providerId: Int!): [ProviderSocial!]
+
+  # ********** Provider gallery ****************************** #
+  providerGallery(providerId: Int!): [ProviderGallery!]
+
+  # ********** Service **************************************** #
+  service(id: Int!): Service!
+
+  # ********** Operating time ********************************* #
+  operatingTime(id: Int!): DayTime!
+
+  # ********** Staff ****************************************** #
+  staff(id: Int!): Staff!
+
+  # ********** Social ****************************************** #
+  social(id: Int!): ProviderSocial!
+
+  # ********** Gallery ***************************************** #
+  gallery(id: Int!): ProviderGallery!
 }

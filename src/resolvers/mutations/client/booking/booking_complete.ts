@@ -1,8 +1,7 @@
-import jwt from "jsonwebtoken";
 import { GraphQLYogaError } from "@graphql-yoga/node";
 
+import { tokenAuthUser } from "utils";
 import { IContext } from "resolvers/types";
-
 import { IClientCompleteBookingArgs } from "./types";
 
 export const clientBookingCompleteMutation = async (
@@ -10,6 +9,7 @@ export const clientBookingCompleteMutation = async (
   clientCompleteBookingInput: IClientCompleteBookingArgs,
   ctx: IContext
 ) => {
+  tokenAuthUser(ctx);
   const { bookingId, complete } = clientCompleteBookingInput;
 
   try {
@@ -17,31 +17,6 @@ export const clientBookingCompleteMutation = async (
     if (!bookingId) {
       throw new GraphQLYogaError("Booking id is required.");
     }
-
-    // Check if an auth header is set.
-    const authorizationHeader =
-      ctx.request.headers.get("x-access-token") ||
-      ctx.request.headers.get("authorization");
-
-    // TODO: Should we throw an Error instead?
-
-    if (!authorizationHeader) {
-      throw new GraphQLYogaError(
-        "Looks like you are not signed in. Please sign in."
-      );
-    }
-
-    // Check if the JWT secret key is defined.
-    if (!process.env.GROOMZY_JWT_SECRET) {
-      throw new GraphQLYogaError("Internal server error.");
-    }
-
-    // Get the token.
-    const token = authorizationHeader.split(" ")[1];
-    // Verify the token if it is valid.
-    const signedIn = jwt.verify(token, process.env.GROOMZY_JWT_SECRET);
-
-    const { id: clientId, role } = signedIn as { id: number; role: string };
 
     if (!complete) {
       throw new GraphQLYogaError(
