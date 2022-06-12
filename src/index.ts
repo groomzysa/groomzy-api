@@ -1,3 +1,6 @@
 import { AppServer } from "./app";
 
-AppServer().listen(4000);
+const port = process.env.PORT || 4000;
+AppServer().listen(port, () => {
+  console.log("Running on port ", port);
+});
