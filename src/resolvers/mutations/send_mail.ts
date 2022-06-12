@@ -1,7 +1,7 @@
 import { validate } from "isemail";
 import { GraphQLYogaError } from "@graphql-yoga/node";
 
-import { mailContent, emailTransport } from "utils";
+import { groomzyMailContent, emailTransport } from "utils";
 
 import { ISendMailArgs } from "./types";
 
@@ -28,7 +28,7 @@ export const sendMailMutation = async (
     // Make email lower case and trim the white spaces.
     email = email.toLocaleLowerCase().trim();
 
-    const contentEmail = mailContent(
+    const contentEmail = groomzyMailContent(
       `Groomzy: A query from ${fullName}`,
       message
     );

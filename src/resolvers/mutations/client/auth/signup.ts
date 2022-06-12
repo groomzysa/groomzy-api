@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { GraphQLYogaError } from "@graphql-yoga/node";
 
 import { IContext } from "resolvers/types";
-import { emailTransport, mailContent } from "utils";
+import { emailTransport, clientMailContent } from "utils";
 import { ISignupClientArgs } from "./types";
 
 export const signupClientMutation = async (
@@ -76,7 +76,10 @@ export const signupClientMutation = async (
 
     let clientSendEmailErrorMessage = "";
 
-    const clientContentEmail = mailContent(client.fullName, clientEmailMessage);
+    const clientContentEmail = clientMailContent(
+      client.fullName,
+      clientEmailMessage
+    );
 
     try {
       const clientEmail = {
