@@ -1,4 +1,8 @@
-export { emailTransport, mailContent } from "./mailServices";
+export {
+  emailTransport,
+  clientMailContent,
+  groomzyMailContent,
+} from "./mailServices";
 export { tokenAuthUser } from "./tokenAuthUser";
 export {
   googleProfilesStorageBucket,
