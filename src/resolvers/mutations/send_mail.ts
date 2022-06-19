@@ -34,14 +34,14 @@ export const sendMailMutation = async (
     );
 
     try {
-      const clientEmail = {
+      const toGroomzyEmail = {
         from: email,
         html: contentEmail,
         subject: `New Query: ${subject}`,
         to: "info@groomzy.co.za",
       };
 
-      await emailTransport.sendMail(clientEmail);
+      await emailTransport.sendMail(toGroomzyEmail);
     } catch (e) {
       throw new GraphQLYogaError(
         "Email could not be sent. Please try agin later."

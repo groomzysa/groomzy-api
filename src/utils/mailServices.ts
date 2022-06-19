@@ -1,10 +1,9 @@
 import { createTransport } from "nodemailer";
-import _ from "lodash";
 
 export const emailTransport = createTransport({
   auth: {
-    pass: process.env.GROOMZY_MAIL_PASSWORD,
     user: process.env.GROOMZY_MAIL_USER,
+    pass: process.env.GROOMZY_MAIL_PASSWORD,
   },
   host: process.env.GROOMZY_MAIL_SERVICE,
   port: Number(process.env.GROOMZY_MAIL_PORT),
@@ -87,7 +86,7 @@ export const groomzyMailContent = (query: string, message: string) => `
       </div>
       <div style="padding: 1%; background: #607d8b;">
         <a href="">
-          <img src="https://storage.googleapis.com/groomzy/google_store.png" alt="App Store" width="120" height="40" />
+          <img src="https://storage.googleapis.com/groomzy/google_store.png" alt="App Store" width="120" height="80" />
         </a>
         <p style="color: white;">Copyright &copy; 2020 <b>Groomzy</b>. All Rights Reserved.</p>
       </div>

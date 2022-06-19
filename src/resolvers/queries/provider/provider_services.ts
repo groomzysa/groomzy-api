@@ -25,19 +25,6 @@ export const providerServicesQuery = async (
         },
       },
     });
-    // return ctx.prisma.provider.findFirst({
-    //   where: {
-    //     id: providerId,
-    //   },
-    //   select: {
-    //     serviceProviderCategories: {
-    //       select: {
-    //         service: true,
-    //         category: true,
-    //       },
-    //     },
-    //   },
-    // });
   } catch (error) {
     throw new GraphQLYogaError(error.message);
   }

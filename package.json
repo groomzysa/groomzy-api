@@ -15,6 +15,7 @@
     "prisma:init": "npx prisma init",
     "prisma:generate": "npx prisma generate",
     "prisma:format": "npx prisma format",
+    "prisma:migrate:deploy": "npx prisma migrate deploy",
     "prisma:migrate:init": "npx prisma migrate dev --name init",
     "prisma:migrate:update": "prisma migrate dev --name modified",
     "prisma:migrate:dev:create-only": "prisma migrate dev --create-only",
@@ -41,6 +42,7 @@
     "isemail": "3.2.0",
     "jsonwebtoken": "8.5.1",
     "lodash": "4.17.21",
+    "moment": "^2.29.3",
     "nodemailer": "^6.7.3"
   },
   "devDependencies": {

@@ -17,3 +17,14 @@ export interface IEditProfileArgs {
   longitude?: number;
   profileImage?: File;
 }
+
+export interface IRequestResetPasswordArgs {
+  email: string;
+  isProvider: boolean;
+}
+
+export interface IResetPasswordArgs {
+  oneTimePin: string;
+  password: string;
+  isProvider: boolean;
+}

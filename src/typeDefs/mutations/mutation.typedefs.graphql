@@ -21,7 +21,7 @@ type Mutation {
     latitude: Float
     longitude: Float
     profileImage: File
-  ): Message!
+  ): ProfileMessage!
 
   # ********** Provider signin ********************** #
   signinProvider(email: String!, password: String!, verify: String): Provider!
@@ -159,5 +159,15 @@ type Mutation {
     subject: String!
     email: String!
     message: String!
+  ): Message!
+
+  # ********** Request reset password ****************** #
+  requestResetPassword(email: String!, isProvider: Boolean!): Message!
+
+  # ********** Reset password ****************** #
+  resetPassword(
+    oneTimePin: String!
+    isProvider: Boolean!
+    password: String!
   ): Message!
 }
