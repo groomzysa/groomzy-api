@@ -48,7 +48,12 @@ import { editProfileMutation } from "./mutations/edit_profile";
 import { providerBookingDoneMutation } from "./mutations/provider/booking/booking_done";
 import { providerBookingCancelMutation } from "./mutations/provider/booking/booking_cancel";
 import { clientBookingRateMutation } from "./mutations/client/booking/booking_rate";
-import { IEditProfileArgs, ISendMailArgs } from "./mutations/types";
+import {
+  IEditProfileArgs,
+  IRequestResetPasswordArgs,
+  IResetPasswordArgs,
+  ISendMailArgs,
+} from "./mutations/types";
 import { sendMailMutation } from "./mutations/send_mail";
 import { addProviderProfileMutation } from "./mutations/provider/profile/add_profile";
 import { IAddProfileArgs } from "./mutations/provider/profile/types";
@@ -66,6 +71,8 @@ import {
   IDeleteGalleryArgs,
 } from "./mutations/provider/gallery/types";
 import { deleteGalleryMutation } from "./mutations/provider/gallery/delete_gallery";
+import { requestResetPasswordMutation } from "./mutations/request_password_reset";
+import { resetPasswordMutation } from "./mutations/reset_password";
 
 export default {
   /**
@@ -353,10 +360,31 @@ export default {
   },
 
   /**
-   *
    * Send mail mutation
-   *
    */
-  sendMail: async (_: any, sendEmailArgs: ISendMailArgs, __: any) =>
-    sendMailMutation(_, sendEmailArgs, __),
+  sendMail: async (_: any, sendEmailArgs: ISendMailArgs, __: any) => {
+    return sendMailMutation(_, sendEmailArgs, __);
+  },
+
+  /**
+   * Password request reset mutation
+   */
+  requestResetPassword: async (
+    _: any,
+    requestResetPasswordArgs: IRequestResetPasswordArgs,
+    ctx: IContext
+  ) => {
+    return requestResetPasswordMutation(_, requestResetPasswordArgs, ctx);
+  },
+
+  /**
+   * Password reset mutation
+   */
+  resetPassword: async (
+    _: any,
+    resetPasswordArgs: IResetPasswordArgs,
+    ctx: IContext
+  ) => {
+    return resetPasswordMutation(_, resetPasswordArgs, ctx);
+  },
 };

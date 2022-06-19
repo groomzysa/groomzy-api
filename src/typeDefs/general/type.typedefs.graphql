@@ -1,6 +1,20 @@
 # ***************** Query return types ***************** #
 
-#Provider social type
+# Client Password reset
+type ClientPasswordReset {
+  id: Int!
+  oneTimePin: Float!
+  resetTokenExpiry: String!
+}
+
+# Client Password reset
+type ProviderPasswordReset {
+  id: Int!
+  oneTimePin: Float!
+  resetTokenExpiry: String!
+}
+
+# Provider social type
 type ProviderSocial {
   # Provider social id
   id: Int!
@@ -103,7 +117,7 @@ type DayTime {
   # Day time
   time: Time!
   # Provider for the day time
-  provider: Provider!
+  provider: Provider
 }
 
 # Rating type
@@ -138,10 +152,12 @@ type Client {
   phoneNumber: String
   # Client address
   address: Address
+  # Password reset
+  passwordReset: ClientPasswordReset
   # Client token
   token: String
   # Client role
-  role: String!
+  role: String
   # Client profile image
   profileImageUrl: String
   # Client bookings
@@ -160,6 +176,8 @@ type Provider {
   phoneNumber: String
   # Provider address
   address: Address
+  # Password reset
+  passwordReset: ProviderPasswordReset
   # Provider address
   profile: ProviderProfile
   # Provider address
@@ -175,7 +193,7 @@ type Provider {
   # Provider token
   token: String
   # Provider role
-  role: String!
+  role: String
   # Provider profile image
   profileImageUrl: String
   # Provider service category
@@ -225,7 +243,7 @@ type Staff {
   # Staff services
   services: [Service!]
   # Staff provider
-  provider: Provider!
+  provider: Provider
 }
 
 # Booking type
@@ -245,7 +263,7 @@ type Booking {
   # Booking rating
   rating: Rating
   # Booking provider
-  provider: Provider!
+  provider: Provider
   # Booking staff
   staff: Staff!
   # Service
@@ -299,4 +317,13 @@ type ProviderGalleryMessage {
   message: Message!
   # Provider gallery
   gallery: ProviderGallery!
+}
+
+type ProfileMessage {
+  # Message
+  message: Message!
+  # Provider profile
+  provider: Provider
+  # Client profile
+  client: Client
 }

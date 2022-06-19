@@ -15,13 +15,21 @@ export const providersQuery = async (
       return ctx.prisma.provider.findMany({
         where: {
           serviceProviderCategories: {
-            every: {
+            some: {
               AND: [
                 {
                   provider: {
-                    fullName: {
-                      contains: search,
-                      mode: "insensitive",
+                    OR: {
+                      fullName: {
+                        contains: search,
+                        mode: "insensitive",
+                      },
+                      profile: {
+                        tradingName: {
+                          contains: search,
+                          mode: "insensitive",
+                        },
+                      },
                     },
                   },
                 },
@@ -43,11 +51,19 @@ export const providersQuery = async (
       return ctx.prisma.provider.findMany({
         where: {
           serviceProviderCategories: {
-            every: {
+            some: {
               provider: {
-                fullName: {
-                  contains: search,
-                  mode: "insensitive",
+                OR: {
+                  fullName: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
+                  profile: {
+                    tradingName: {
+                      contains: search,
+                      mode: "insensitive",
+                    },
+                  },
                 },
               },
             },
@@ -59,7 +75,7 @@ export const providersQuery = async (
       return ctx.prisma.provider.findMany({
         where: {
           serviceProviderCategories: {
-            every: {
+            some: {
               category: {
                 category: {
                   equals: category,

@@ -43,6 +43,24 @@ enum UserStatus {
 
 // Models (Simple database tables)
 
+model ProviderPasswordReset {
+  id               Int      @id @default(autoincrement())
+  oneTimePin       String   @unique @db.VarChar(255)
+  resetTokenExpiry DateTime
+
+  provider   Provider? @relation(fields: [providerId], references: [id])
+  providerId Int       @unique
+}
+
+model ClientPasswordReset {
+  id               Int      @id @default(autoincrement())
+  oneTimePin       String   @unique @db.VarChar(255)
+  resetTokenExpiry DateTime
+
+  client   Client? @relation(fields: [clientId], references: [id])
+  clientId Int     @unique
+}
+
 // Provider social model
 model ProviderSocial {
   id         Int      @id @default(autoincrement())
@@ -155,6 +173,9 @@ model Client {
   // A cleint may have an address
   address Address?
 
+  // A client may have a reset password
+  passwordReset ClientPasswordReset?
+
   // A client may have bookings
   bookings Booking[]
 }
@@ -229,6 +250,9 @@ model Provider {
 
   // A provider may have an address
   address Address?
+
+  // A provider may have a reset password
+  passwordReset ProviderPasswordReset?
 
   // A provider may have bookings
   bookings Booking[]

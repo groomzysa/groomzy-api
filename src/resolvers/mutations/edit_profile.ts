@@ -99,8 +99,11 @@ export const editProfileMutation = async (
       fs.rmSync(path.join(__dirname, profileImage.name));
     }
 
+    let provider;
+    let client;
+
     if (role === "Provider") {
-      await ctx.prisma.provider.update({
+      provider = await ctx.prisma.provider.update({
         where: {
           id,
         },
@@ -114,7 +117,7 @@ export const editProfileMutation = async (
         },
       });
     } else {
-      await ctx.prisma.client.update({
+      client = await ctx.prisma.client.update({
         where: {
           id,
         },
@@ -130,7 +133,11 @@ export const editProfileMutation = async (
     }
 
     return {
-      message: "Profile updated successfully",
+      message: {
+        message: "Profile updated successfully",
+      },
+      provider,
+      client,
     };
   } catch (error) {
     throw new GraphQLYogaError(error.message);
