@@ -2,7 +2,7 @@ import { GraphQLYogaError } from "@graphql-yoga/node";
 import moment from "moment";
 import bcrypt from "bcrypt";
 
-import { emailTransport, clientMailContent } from "utils";
+import { emailTransportOutGoing, clientMailContent } from "utils";
 import { IContext } from "resolvers/types";
 
 import { IResetPasswordArgs } from "./types";
@@ -96,7 +96,7 @@ export const resetPasswordMutation = async (
       to: user.email,
     };
 
-    await emailTransport.sendMail(toClientEmail);
+    await emailTransportOutGoing.sendMail(toClientEmail);
 
     return {
       message: "Password change was successful.",

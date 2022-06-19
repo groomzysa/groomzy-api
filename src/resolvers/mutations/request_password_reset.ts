@@ -2,7 +2,7 @@ import { validate } from "isemail";
 import { GraphQLYogaError } from "@graphql-yoga/node";
 import moment from "moment";
 
-import { emailTransport, clientMailContent } from "utils";
+import { emailTransportOutGoing, clientMailContent } from "utils";
 import { IContext } from "resolvers/types";
 
 import { IRequestResetPasswordArgs } from "./types";
@@ -111,7 +111,7 @@ export const requestResetPasswordMutation = async (
       to: user.email,
     };
 
-    await emailTransport.sendMail(toClientEmail);
+    await emailTransportOutGoing.sendMail(toClientEmail);
 
     return {
       message:

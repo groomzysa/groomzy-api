@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { GraphQLYogaError } from "@graphql-yoga/node";
 
 import { IContext } from "resolvers/types";
-import { clientMailContent, emailTransport } from "utils";
+import { clientMailContent, emailTransportOutGoing } from "utils";
 import { ISignupProviderArgs } from "./types";
 
 const messagingApi = require("@cmdotcom/text-sdk");
@@ -95,7 +95,7 @@ export const signupProviderMutation = async (
         to: provider.email,
       };
 
-      await emailTransport.sendMail(serviceProviderEmail);
+      await emailTransportOutGoing.sendMail(serviceProviderEmail);
     } catch (e) {
       providerSendEmailErrorMessage = `We tried to send an email to ${email} but it failed.
 			This may be due to an email provided not working.
