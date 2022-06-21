@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { GraphQLYogaError } from "@graphql-yoga/node";
 
 import { IContext } from "resolvers/types";
-import { emailTransportOutGoing, clientMailContent } from "utils";
+import { emailTransport, clientMailContent } from "utils";
 import { ISignupClientArgs } from "./types";
 
 export const signupClientMutation = async (
@@ -85,11 +85,11 @@ export const signupClientMutation = async (
       const clientEmail = {
         from: "info@groomzy.co.za",
         html: clientContentEmail,
-        subject: "Groomzy signup confirmation.",
+        subject: "Groomzy signup confirmation",
         to: client.email,
       };
 
-      await emailTransportOutGoing.sendMail(clientEmail);
+      await emailTransport.sendMail(clientEmail);
     } catch (e) {
       clientSendEmailErrorMessage = `We tried to send an email to ${email} but it failed.
 			This may be due to an email provided not working.

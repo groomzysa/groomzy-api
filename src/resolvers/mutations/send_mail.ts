@@ -1,7 +1,7 @@
 import { validate } from "isemail";
 import { GraphQLYogaError } from "@graphql-yoga/node";
 
-import { groomzyMailContent, emailTransportInComing } from "utils";
+import { groomzyMailContent, emailTransport } from "utils";
 
 import { ISendMailArgs } from "./types";
 
@@ -41,7 +41,7 @@ export const sendMailMutation = async (
         to: "info@groomzy.co.za",
       };
 
-      await emailTransportInComing.sendMail(toGroomzyEmail);
+      await emailTransport.sendMail(toGroomzyEmail);
     } catch (e) {
       throw new GraphQLYogaError(
         "Email could not be sent. Please try agin later."
