@@ -1,6 +1,5 @@
 export {
-  emailTransportOutGoing,
-  emailTransportInComing,
+  emailTransport,
   clientMailContent,
   groomzyMailContent,
 } from "./mailServices";

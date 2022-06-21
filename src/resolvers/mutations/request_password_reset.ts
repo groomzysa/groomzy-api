@@ -2,7 +2,7 @@ import { validate } from "isemail";
 import { GraphQLYogaError } from "@graphql-yoga/node";
 import moment from "moment";
 
-import { emailTransportOutGoing, clientMailContent } from "utils";
+import { emailTransport, clientMailContent } from "utils";
 import { IContext } from "resolvers/types";
 
 import { IRequestResetPasswordArgs } from "./types";
@@ -107,11 +107,11 @@ export const requestResetPasswordMutation = async (
     const toClientEmail = {
       from: "info@groomzy.co.za",
       html: contentEmail,
-      subject: "Password reset request.",
+      subject: "Password reset request",
       to: user.email,
     };
 
-    await emailTransportOutGoing.sendMail(toClientEmail);
+    await emailTransport.sendMail(toClientEmail);
 
     return {
       message:
