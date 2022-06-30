@@ -1,13 +1,5 @@
 import { createTransport } from "nodemailer";
 
-console.log(
-  process.env.GROOMZY_MAIL_USER,
-  process.env.GROOMZY_MAIL_PASSWORD,
-  process.env.GROOMZY_MAIL_HOST,
-  Number(process.env.GROOMZY_MAIL_PORT),
-  process.env.GROOMZY_MAIL_SECURE
-);
-
 export const emailTransport = createTransport({
   auth: {
     user: process.env.GROOMZY_MAIL_USER,
