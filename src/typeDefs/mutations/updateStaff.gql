@@ -1,0 +1,7 @@
+# ************************************************** #
+# ***************** Update staff ******************* #
+# ************************************************** #
+
+type Mutation {
+  updateStaff(staffId: Int!, firstName: String, lastName: String): Staff!
+}

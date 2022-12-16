@@ -1,0 +1,14 @@
+# ************************************************** #
+# ************** Add account address *************** #
+# ************************************************** #
+
+type Mutation {
+  addAccountAddress(
+    streetNumber: String!
+    streetName: String!
+    town: String!
+    city: String!
+    province: String!
+    areaCode: String!
+  ): Address!
+}

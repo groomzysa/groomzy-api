@@ -1,0 +1,15 @@
+# ************************************************** #
+# ************ Update trading address ************** #
+# ************************************************** #
+
+type Mutation {
+  updateTradingAddress(
+    addressId: Int!
+    streetNumber: String
+    streetName: String
+    town: String
+    city: String
+    province: String
+    areaCode: String
+  ): Address!
+}

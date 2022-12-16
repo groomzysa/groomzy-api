@@ -1,0 +1,12 @@
+# ************************************************** #
+# ************** Update trading info *************** #
+# ************************************************** #
+
+type Mutation {
+  updateTradingInfo(
+    providerId: Int!
+    tradingName: String
+    phone: String
+    logo: File
+  ): Provider!
+}

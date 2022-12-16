@@ -1,0 +1,47 @@
+{
+  "name": "groomzy-api",
+  "version": "1.0.0",
+  "description": "The Groomzy API",
+  "main": "index.ts",
+  "repository": "git@github.com:Groomzy-Softwares/groomzy-api.git",
+  "author": "Sifiso <myezasifiso11@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "npx ts-node -r tsconfig-paths/register src/index.ts",
+    "dev": "nodemon -e ts,graphql -x ts-node -r tsconfig-paths/register src/index.ts",
+    "prisma:init": "npx prisma init",
+    "prisma:generate": "npx prisma generate",
+    "prisma:format": "npx prisma format",
+    "prisma:migrate:init": "npx prisma migrate dev --name init",
+    "prisma:migrate:update": "prisma migrate dev --name modified"
+  },
+  "dependencies": {
+    "@graphql-tools/load-files": "^6.6.1",
+    "@prisma/client": "^4.6.1",
+    "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.14",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/lodash": "^4.14.186",
+    "@types/nodemailer": "^6.4.6",
+    "bcrypt": "^5.1.0",
+    "express": "^4.18.2",
+    "graphql": "^16.6.0",
+    "graphql-tools": "^8.3.7",
+    "graphql-yoga": "^3.0.0",
+    "isemail": "^3.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "nodemailer": "^6.8.0",
+    "nodemailer-express-handlebars": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.7",
+    "@types/nodemailer-express-handlebars": "^4.0.2",
+    "nodemon": "^2.0.20",
+    "prisma": "^4.6.1",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.0",
+    "typescript": "^4.8.4"
+  }
+}

@@ -1,0 +1,13 @@
+# ************************************************** #
+# ******************* Mail sent ******************** #
+# ************************************************** #
+
+type Mutation {
+  contactMail(
+    firstName: String!
+    lastName: String!
+    email: String!
+    subject: String!
+    message: String!
+  ): Message!
+}

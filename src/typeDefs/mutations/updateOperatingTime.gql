@@ -1,0 +1,12 @@
+# ************************************************** #
+# ************* Update operating time ************** #
+# ************************************************** #
+
+type Mutation {
+  updateOperatingTime(
+    operatingTimeId: Int!
+    day: DayType
+    opens: String
+    closes: String
+  ): OperatingTime!
+}

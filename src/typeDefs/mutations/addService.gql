@@ -1,0 +1,15 @@
+# ************************************************** #
+# ****************** Add service ******************* #
+# ************************************************** #
+
+type Mutation {
+  addService(
+    name: String!
+    description: String!
+    price: Float!
+    duration: Float!
+    durationUnit: DurationUnitType!
+    inHouse: Boolean!
+    category: CategoryType!
+  ): Service!
+}

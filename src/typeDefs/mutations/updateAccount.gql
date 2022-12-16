@@ -1,0 +1,13 @@
+# ************************************************** #
+# ***************** Update account ***************** #
+# ************************************************** #
+
+type Mutation {
+  updateAccount(
+    firstName: String
+    lastName: String
+    email: String
+    password: String
+    userImage: File
+  ): User!
+}

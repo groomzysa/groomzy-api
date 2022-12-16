@@ -1,0 +1,7 @@
+# ************************************************** #
+# ************* Delete operating time ************** #
+# ************************************************** #
+
+type Mutation {
+  deleteOperatingTime(operatingTimeId: Int!): OperatingTime!
+}

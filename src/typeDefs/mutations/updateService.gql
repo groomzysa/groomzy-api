@@ -1,0 +1,16 @@
+# ************************************************** #
+# **************** Update service ****************** #
+# ************************************************** #
+
+type Mutation {
+  updateService(
+    serviceId: Int!
+    name: String
+    description: String
+    duration: Float
+    durationUnit: DurationUnitType
+    inHouse: Boolean
+    price: Float
+    category: CategoryType
+  ): Service!
+}

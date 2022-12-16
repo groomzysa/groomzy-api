@@ -1,0 +1,11 @@
+# ************************************************** #
+# *************** Add operating time *************** #
+# ************************************************** #
+
+type Mutation {
+  addOperatingTime(
+    day: DayType!
+    opens: String!
+    closes: String!
+  ): OperatingTime!
+}

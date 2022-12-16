@@ -1,0 +1,14 @@
+# ************************************************** #
+# ******************* Add user  ******************** #
+# ************************************************** #
+
+type Mutation {
+  addUser(
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+    role: UserRole!
+    userImage: File
+  ): User!
+}

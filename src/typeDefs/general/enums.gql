@@ -1,0 +1,47 @@
+# ************************************************** #
+# ********************* Enums ********************** #
+# ************************************************** #
+enum BookingStatus {
+  ACTIVE
+  CANCELLED
+  DELETED
+  DONE
+  PENDING
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+  SUSPENDED
+  DELETED
+}
+
+enum UserRole {
+  ADMIN
+  CLIENT
+  PROVIDER
+}
+
+enum CategoryType {
+  BARBER
+  HAIRDRESSER
+  MAKEUP_ARTIST
+  NAIL_TECHNICIAN
+  SPA
+}
+
+enum DurationUnitType {
+  MIN
+  HRS
+}
+
+enum DayType {
+  MON
+  TUE
+  WED
+  THR
+  FRI
+  SAT
+  SUN
+}

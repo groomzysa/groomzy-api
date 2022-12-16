@@ -1,0 +1,106 @@
+# ************************************************** #
+# ********************* Types ********************** #
+# ************************************************** #
+
+type Address {
+  id: Int!
+  createdAt: String
+  updatedAt: String
+  streetNumber: String
+  streetName: String
+  town: String
+  city: String
+  province: String
+  areaCode: String
+}
+
+type Booking {
+  id: Int!
+  createdAt: String
+  updatedAt: String
+  bookingTime: String
+  inHouse: Boolean
+  status: BookingStatus
+  provider: Provider
+  client: Client
+  service: Service
+}
+
+type Client {
+  id: Int!
+  createdAt: String
+  updatedAt: String
+  phone: String
+  user: User
+  bookings: [Booking!]
+}
+
+type Provider {
+  id: Int!
+  createdAt: String
+  updatedAt: String
+  tradingName: String
+  phone: String
+  logoUrl: String
+  user: User
+  addresses: [Address!]
+  services: [Service!]
+  staffs: [Staff!]
+  bookings: [Booking!]
+  operatingTimes: [OperatingTime!]
+}
+
+type Service {
+  id: Int!
+  createdAt: String
+  updatedAt: String
+  name: String
+  description: String
+  duration: Float
+  durationUnit: DurationUnitType
+  inHouse: Boolean
+  price: Float
+  category: CategoryType
+  staffs: [Staff!]
+}
+
+type Staff {
+  id: Int!
+  createdAt: String
+  updatedAt: String
+  firstName: String
+  lastName: String
+  services: [Service!]
+}
+
+type User {
+  id: Int!
+  createdAt: String
+  updatedAt: String
+  userImageUrl: String
+  firstName: String
+  lastName: String
+  email: String
+  state: UserStatus
+  role: UserRole
+  provider: Provider
+  address: Address
+}
+
+type OperatingTime {
+  id: Int!
+  createdAt: String
+  updatedAt: String
+  day: DayType
+  opens: String
+  closes: String
+  provider: Provider
+}
+
+type Token {
+  token: String!
+}
+
+type Message {
+  message: String!
+}

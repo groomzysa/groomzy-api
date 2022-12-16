@@ -1,0 +1,14 @@
+# ************************************************** #
+# ************** Add trading address *************** #
+# ************************************************** #
+
+type Mutation {
+  addTradingAddress(
+    streetNumber: String!
+    streetName: String!
+    town: String!
+    city: String!
+    province: String!
+    areaCode: String!
+  ): Address!
+}
