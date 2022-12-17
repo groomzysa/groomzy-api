@@ -41,6 +41,6 @@ export interface IRequestPasswordReset {
 }
 
 export interface IResetPassword {
-  oneTimePin: string;
+  passwordResetOTP: string;
   password: string;
 }
