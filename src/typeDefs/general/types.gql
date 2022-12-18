@@ -48,6 +48,7 @@ type Provider {
   staffs: [Staff!]
   bookings: [Booking!]
   operatingTimes: [OperatingTime!]
+  socials: [Social!]
 }
 
 type Service {
@@ -94,6 +95,15 @@ type OperatingTime {
   day: DayType
   opens: String
   closes: String
+  provider: Provider
+}
+
+type Social {
+  id: Int!
+  createdAt: String
+  updatedAt: String
+  name: String
+  username: String
   provider: Provider
 }
 

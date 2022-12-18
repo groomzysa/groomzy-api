@@ -33,7 +33,7 @@ export const updateOperatingTime = async (
       updateData.closes = closes;
     }
 
-    return await ctx.prisma.operatingTime.update({
+    return ctx.prisma.operatingTime.update({
       where: {
         id: operatingTimeId,
       },

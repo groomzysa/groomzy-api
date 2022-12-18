@@ -1,0 +1,7 @@
+# ************************************************** #
+# ***************** Update social ****************** #
+# ************************************************** #
+
+type Mutation {
+  updateSocial(socialId: Int!, name: String, username: String): Social!
+}

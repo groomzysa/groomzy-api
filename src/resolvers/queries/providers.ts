@@ -7,6 +7,7 @@ export const providers = async (_: any, __: any, ctx: IContext) => {
       include: {
         addresses: true,
         operatingTimes: true,
+        socials: true,
       },
     });
   } catch (error) {

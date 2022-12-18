@@ -120,6 +120,7 @@ model Provider {
   services       Service[]
   staffs         Staff[]
   operatingTimes OperatingTime[]
+  socials        Social[]
 }
 
 model Service {
@@ -186,6 +187,17 @@ model OperatingTime {
   day       DayType
   opens     String   @db.VarChar(255)
   closes    String   @db.VarChar(255)
+
+  provider   Provider @relation(fields: [providerId], references: [id])
+  providerId Int
+}
+
+model Social {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @db.VarChar(255)
+  username  String   @db.VarChar(255)
 
   provider   Provider @relation(fields: [providerId], references: [id])
   providerId Int
