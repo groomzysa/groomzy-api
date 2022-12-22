@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact</title>
+    <title>Sign up</title>
     <style>
         body: {
             color: black;
@@ -14,13 +14,11 @@
     <div style="border: 1px solid black;  width: 100%">
         <div style="padding:30px;">
             {{>header}}
-            <p>Hi, </p>
+            <p>Hi, {{firstName}} </p>
+            <p>Thank you for signing up with Groomzy.</p>
+            <p>This is to confirm that your signing up was successful.</p>
             <br>
-            <p>A query from <strong>{{firstName}} {{lastName}}</strong> regarding <strong>{{subject}}</strong> has been logged, please attend to it.</p>
-            <br>
-            <div>
-                <p>{{message}}</p>
-            </div>
+            <p>Yours in service<br><strong>Groomzy Team</strong></p>
             <br>
             <br>
         </div>

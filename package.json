@@ -9,11 +9,14 @@
   "scripts": {
     "start": "npx ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "nodemon -e ts,graphql -x ts-node -r tsconfig-paths/register src/index.ts",
+    "pm2:start": "pm2 start src/index.ts --name groomzy-api --node-args='-r dotenv/config -r tsconfig-paths/register'",
+    "pm2:restart": "pm2 restart groomzy-api --node-args='-r dotenv/config -r tsconfig-paths/register'",
     "prisma:init": "npx prisma init",
     "prisma:generate": "npx prisma generate",
     "prisma:format": "npx prisma format",
     "prisma:migrate:init": "npx prisma migrate dev --name init",
-    "prisma:migrate:update": "prisma migrate dev --name modified"
+    "prisma:migrate:update": "prisma migrate dev --name modified",
+    "prisma:migrate:deploy": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@graphql-tools/load-files": "^6.6.1",

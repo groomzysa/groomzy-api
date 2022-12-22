@@ -46,6 +46,7 @@ export const contactMail = async (
         firstName,
         lastName,
         message,
+        logoUrl: `${process.env.API_BASE_URL || ""}/media-logo`,
       },
     };
 

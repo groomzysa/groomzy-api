@@ -1,11 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import express from "express";
 
-import { default as typeDefs } from "./typeDefs";
-import resolvers from "./resolvers";
 import { createYoga } from "graphql-yoga";
 import { schema } from "./schema";
 import path from "path";
+import fs from "fs";
 
 // Instatiate prisma client
 const prisma = new PrismaClient();
@@ -36,7 +35,7 @@ export const AppServer = () => {
   // });
 
   app.get("/media-logo", (req, res) => {
-    // Get the data request
+    // Not getting the data request
     const notFound = {
       message: "Logo not found.",
       success: false,
@@ -49,14 +48,20 @@ export const AppServer = () => {
     };
 
     // Get the base path if exist
-    const basePath = `${__dirname}/assets/images`;
+    const basePath = `${process.env.GROOMZY_IMAGES_BASE_PATH || ""}/common/`;
 
     // Form a full path for the image location
     const fullPath = path.join(basePath, "media-logo.png");
 
-    // Download the profile picture.
+    // Check if file exist
+    if (!fs.existsSync(fullPath)) {
+      res.status(404).send(notFound);
+
+      return;
+    }
+
+    // Download the media logo image.
     res.download(fullPath, (err) => {
-      console.log(err);
       if (err) {
         if (!res.headersSent) {
           res.status(500).send(internalServerError);
