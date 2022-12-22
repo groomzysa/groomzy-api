@@ -49,16 +49,16 @@ export const contactMail = async (
         headerPartialContext: {
           logoUrl: `${
             process.env.GROOMYZ_API_BASE_URL || ""
-          }/common-media-file/:media-logo`,
+          }/common-media-file/media-logo`,
           groomzyUrl: process.env.GROOMZY_BASE_URL || "",
         },
         footerPartialContext: {
           intagramLogoUrl: `${
             process.env.GROOMYZ_API_BASE_URL || ""
-          }/common-media-file/:instagram-logo`,
+          }/common-media-file/instagram-logo`,
           googlePlayLogoUrl: `${
             process.env.GROOMYZ_API_BASE_URL || ""
-          }/common-media-file/:google-play-button`,
+          }/common-media-file/google-play-button`,
         },
       },
     };
