@@ -13,8 +13,8 @@
 <body>
     <div style="border: 1px solid black;  width: 100%">
         <div style="padding:30px;">
-            {{>header}}
-            <p>Hi, {{firstName}} </p>
+            {{>header this.headerPartialContext}}
+            <p>Hi, <Strong>{{firstName}}</Strong></p>
             <p>Thank you for signing up with Groomzy.</p>
             <p>This is to confirm that your signing up was successful.</p>
             <br>
@@ -23,7 +23,7 @@
             <br>
         </div>
         
-        {{>footer}}
+        {{>footer this.footerPartialContext}}
         
     </div>
 </body>

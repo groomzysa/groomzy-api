@@ -1,14 +1,41 @@
 import { validate } from "isemail";
 import { hash } from "bcrypt";
+import path from "path";
+import hbs from "nodemailer-express-handlebars";
+import { getTransporter } from "../../../utils/mail/transporter";
 import { IContext } from "../../types";
 import { IAddUser } from "./types";
 import { GraphQLError } from "graphql";
 
 export const addUser = async (_: any, args: IAddUser, ctx: IContext) => {
   try {
+    const pathToViews = "../../../utils/mail/views";
+    const pathToPartials = "../../../utils/mail/partials";
+    const transporter = getTransporter({
+      host: process.env.GROOMZY_HOST || "",
+      user: process.env.GROOMZY_USER || "",
+      pass: process.env.GROOMZY_PASS || "",
+    });
+    const viewPath = path.resolve(__dirname, pathToViews);
+    const partialsPath = path.resolve(__dirname, pathToPartials);
+
     const { firstName, lastName, role } = args;
 
     let { email, password } = args;
+
+    transporter.use(
+      "compile",
+      hbs({
+        viewEngine: {
+          layoutsDir: viewPath,
+          partialsDir: partialsPath,
+          extname: ".handlebars",
+          defaultLayout: "signUp",
+        },
+        viewPath: viewPath,
+        extName: ".handlebars",
+      })
+    );
 
     // is first name empty
     if (!firstName) {
@@ -62,7 +89,7 @@ export const addUser = async (_: any, args: IAddUser, ctx: IContext) => {
     // Hash password before stored in the database.
     password = await hash(password, 10);
 
-    return ctx.prisma.user.create({
+    const user = await ctx.prisma.user.create({
       data: {
         firstName,
         lastName,
@@ -71,6 +98,34 @@ export const addUser = async (_: any, args: IAddUser, ctx: IContext) => {
         role,
       },
     });
+
+    const mailOptions = {
+      from: "info@groomzy.co.za",
+      to: email,
+      subject: "Welcome to Groomzy",
+      template: "signUp",
+      context: {
+        firstName: user.firstName,
+        headerPartialContext: {
+          logoUrl: `${
+            process.env.GROOMYZ_API_BASE_URL || ""
+          }/common-media-file/media-logo`,
+          groomzyUrl: process.env.GROOMZY_BASE_URL || "",
+        },
+        footerPartialContext: {
+          intagramLogoUrl: `${
+            process.env.GROOMYZ_API_BASE_URL || ""
+          }/common-media-file/instagram-logo`,
+          googlePlayLogoUrl: `${
+            process.env.GROOMYZ_API_BASE_URL || ""
+          }/common-media-file/google-play-button`,
+        },
+      },
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return user;
   } catch (error) {
     throw new GraphQLError((error as Error).message);
   }

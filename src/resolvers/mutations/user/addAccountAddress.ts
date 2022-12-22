@@ -49,7 +49,7 @@ export const addAccountAddress = async (
       throw new GraphQLError("Area code is required.");
     }
 
-    return await ctx.prisma.address.create({
+    return ctx.prisma.address.create({
       data: {
         streetName,
         streetNumber,

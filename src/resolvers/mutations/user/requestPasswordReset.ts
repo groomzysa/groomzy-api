@@ -91,6 +91,20 @@ export const requestPasswordReset = async (
       context: {
         firstName: user.firstName,
         passwordResetOTP,
+        headerPartialContext: {
+          logoUrl: `${
+            process.env.GROOMYZ_API_BASE_URL || ""
+          }/common-media-file/media-logo`,
+          groomzyUrl: process.env.GROOMZY_BASE_URL || "",
+        },
+        footerPartialContext: {
+          intagramLogoUrl: `${
+            process.env.GROOMYZ_API_BASE_URL || ""
+          }/common-media-file/instagram-logo`,
+          googlePlayLogoUrl: `${
+            process.env.GROOMYZ_API_BASE_URL || ""
+          }/common-media-file/google-play-button`,
+        },
       },
     };
 
