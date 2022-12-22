@@ -34,7 +34,7 @@ export const AppServer = () => {
   //   next();
   // });
 
-  app.get("/media-logo", (req, res) => {
+  app.get("/?/media-logo", (req, res) => {
     // Not getting the data request
     const notFound = {
       message: "Logo not found.",
