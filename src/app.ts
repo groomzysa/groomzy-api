@@ -34,7 +34,7 @@ export const AppServer = () => {
   //   next();
   // });
 
-  app.get("/?/media-logo", (req, res) => {
+  app.get("/?/common-media-file/:mediaFilename", (req, res) => {
     // Not getting the data request
     const notFound = {
       message: "Logo not found.",
@@ -50,8 +50,11 @@ export const AppServer = () => {
     // Get the base path if exist
     const basePath = `${process.env.GROOMZY_IMAGES_BASE_PATH || ""}/common/`;
 
+    // Get all the params from the request
+    const { mediaFilename } = req.params;
+
     // Form a full path for the image location
-    const fullPath = path.join(basePath, "media-logo.png");
+    const fullPath = path.join(basePath, `${mediaFilename}.png`);
 
     // Check if file exist
     if (!fs.existsSync(fullPath)) {
