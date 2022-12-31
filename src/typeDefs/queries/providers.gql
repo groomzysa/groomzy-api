@@ -3,5 +3,5 @@
 # ************************************************** #
 
 type Query {
-  providers: [Provider!]!
+  providers(search: String): [Provider!]!
 }

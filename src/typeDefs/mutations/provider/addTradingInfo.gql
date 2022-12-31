@@ -3,5 +3,5 @@
 # ************************************************** #
 
 type Mutation {
-  addTradingInfo(tradingName: String!, phone: String!, logo: File): Provider!
+  addTradingInfo(tradingName: String!, phone: String!, logo: Upload): Provider!
 }

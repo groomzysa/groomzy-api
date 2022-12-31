@@ -20,6 +20,7 @@ export interface IUpdateAccount {
   email?: string;
   password?: string;
   userImage?: File;
+  userImageUrl?: string;
 }
 
 export interface IAddAccountAddress

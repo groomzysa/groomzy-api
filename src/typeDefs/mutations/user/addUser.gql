@@ -9,6 +9,6 @@ type Mutation {
     email: String!
     password: String!
     role: UserRole!
-    userImage: File
+    userImage: Upload
   ): User!
 }

@@ -7,6 +7,6 @@ type Mutation {
     providerId: Int!
     tradingName: String
     phone: String
-    logo: File
+    logo: Upload
   ): Provider!
 }

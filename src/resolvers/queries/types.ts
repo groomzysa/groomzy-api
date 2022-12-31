@@ -1,1 +1,3 @@
-export interface IProviders {}
+export interface IProviders {
+  search?: string;
+}

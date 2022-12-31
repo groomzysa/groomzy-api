@@ -18,7 +18,7 @@ export const updateAccount = async (
   try {
     let { email, password } = args;
     const { id } = tokenDetails;
-    const { firstName, lastName } = args;
+    const { firstName, lastName, userImage } = args;
     const updateData: IUpdateAccount = {};
 
     // update first name
@@ -62,6 +62,20 @@ export const updateAccount = async (
       }
 
       updateData.password = password;
+    }
+
+    // update profile image
+    if (userImage) {
+      // const fileStream = userImage.stream();
+      //   await fs.promises.writeFile(
+      //     `${process.env.GROOMZY_IMAGES_BASE_PATH || ""}/profiles/${
+      //       userImage.name
+      //     }`,
+      //     fileStream
+      //   );
+      //   updateData.userImageUrl = `${
+      //     process.env.GROOMYZ_API_BASE_URL || ""
+      //   }/profiles/${userImage.name}`;
     }
 
     return await ctx.prisma.user.update({

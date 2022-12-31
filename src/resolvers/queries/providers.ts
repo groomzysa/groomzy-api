@@ -1,8 +1,27 @@
 import { GraphQLError } from "graphql";
 import { IContext } from "../types";
+import { IProviders } from "./types";
 
-export const providers = async (_: any, __: any, ctx: IContext) => {
+export const providers = async (_: any, args: IProviders, ctx: IContext) => {
   try {
+    const { search } = args;
+    if (search) {
+      return ctx.prisma.provider.findMany({
+        where: {
+          OR: {
+            tradingName: {
+              contains: search,
+            },
+          },
+        },
+        include: {
+          addresses: true,
+          operatingTimes: true,
+          socials: true,
+        },
+      });
+    }
+
     return ctx.prisma.provider.findMany({
       include: {
         addresses: true,
