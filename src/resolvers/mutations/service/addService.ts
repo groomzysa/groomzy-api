@@ -2,6 +2,7 @@ import { IContext } from "../../types";
 import { IAddService } from "./types";
 import { GraphQLError } from "graphql";
 import { userAuthToken } from "../../../utils/userAuthToken";
+import { CategoryType } from "@prisma/client";
 
 export const addService = async (_: any, args: IAddService, ctx: IContext) => {
   try {

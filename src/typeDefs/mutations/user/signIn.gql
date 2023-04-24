@@ -3,5 +3,5 @@
 # ************************************************** #
 
 type Mutation {
-  signIn(email: String!, password: String!, role: UserRole!): Token!
+  signIn(email: String!, password: String!, role: UserRole!): UserToken!
 }

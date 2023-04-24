@@ -70,6 +70,7 @@ export const requestPasswordReset = async (
     const passwordResetOTP = (Math.random() * 10000).toFixed();
 
     const passwordResetOTPExpire = moment(Date.now())
+      .utc()
       .add(30, "minutes")
       .toDate();
 

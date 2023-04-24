@@ -2,6 +2,7 @@ import { GraphQLError } from "graphql";
 import { userAuthToken } from "../../../utils/userAuthToken";
 import { IContext } from "../../types";
 import { IAddTradingInfo } from "./types";
+import { storeUpload } from "../../../utils/fileStore";
 
 export const addTradingInfo = async (
   _: any,
@@ -17,7 +18,22 @@ export const addTradingInfo = async (
   const { id } = tokenDetails;
 
   try {
-    const { tradingName, phone } = args;
+    const { tradingName, phone, logo } = args;
+    let logoUrl;
+
+    if (logo) {
+      const filename = `${id}-logo.${logo.type.split("/")[1]}`;
+      const filePath = `${process.env.GROOMZY_IMAGES_BASE_PATH}/logo`;
+
+      const buffer = await logo.arrayBuffer();
+
+      logoUrl = await storeUpload({
+        buffer,
+        filename,
+        filePath,
+        getFileEndpoint: "logo",
+      });
+    }
 
     // is trading name empty
     if (!tradingName) {
@@ -33,6 +49,7 @@ export const addTradingInfo = async (
       data: {
         tradingName,
         phone,
+        logoUrl,
         user: {
           connect: {
             id,

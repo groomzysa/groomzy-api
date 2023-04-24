@@ -14,11 +14,11 @@ export const resetPassword = async (
 
     // Check if its a legit one time pin
     // And check if the one time pin is not expired
-    const [user] = await ctx.prisma.user.findMany({
+    const user = await ctx.prisma.user.findFirst({
       where: {
         passwordResetOTP,
         passwordResetOTPExpire: {
-          gte: moment(Date.now()).toDate(),
+          gte: moment(Date.now()).utc().toDate(),
         },
       },
     });

@@ -8,6 +8,6 @@ type Mutation {
     lastName: String
     email: String
     password: String
-    userImage: Upload
+    userImage: File
   ): User!
 }

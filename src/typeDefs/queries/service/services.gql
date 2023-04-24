@@ -1,0 +1,13 @@
+# ************************************************** #
+# ******************* Services ********************* #
+# ************************************************** #
+
+type Query {
+  services(
+    providerId: Int
+    limit: Int
+    cursor: Int
+    page: Int
+    paginationType: PaginationType
+  ): ServicesQueryResults
+}

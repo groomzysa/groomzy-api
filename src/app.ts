@@ -20,6 +20,7 @@ const yoga = createYoga({
   },
   schema,
   graphqlEndpoint: "/",
+  multipart: true,
 });
 
 export const AppServer = () => {
@@ -28,21 +29,21 @@ export const AppServer = () => {
 
   app.use(bodyParser.json());
 
-  //Enabling CORS
+  // Enabling CORS
   app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
-    res.setHeader(
+    res.header(
       "Access-Control-Allow-Methods",
       "GET, POST, OPTIONS, PUT, PATCH, DELETE"
     );
-    res.header(
+    res.setHeader(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept"
     );
     next();
   });
 
-  app.get("/?/common-media-file/:mediaFilename", (req, res) => {
+  app.get("/?/logo/:mediaFilename", (req, res) => {
     // Not getting the data request
     const notFound = {
       message: "Logo not found.",
@@ -56,13 +57,13 @@ export const AppServer = () => {
     };
 
     // Get the base path if exist
-    const basePath = `${process.env.GROOMZY_IMAGES_BASE_PATH || ""}/common/`;
+    const basePath = `${process.env.GROOMZY_IMAGES_BASE_PATH || ""}/logo/`;
 
     // Get all the params from the request
     const { mediaFilename } = req.params;
 
     // Form a full path for the image location
-    const fullPath = path.join(basePath, `${mediaFilename}.png`);
+    const fullPath = path.join(basePath, `${mediaFilename}`);
 
     // Check if file exist
     if (!fs.existsSync(fullPath)) {
@@ -142,8 +143,6 @@ export const AppServer = () => {
 
     // Get all the params from the request
     const { mediaFilename } = req.params;
-
-    console.log(mediaFilename);
 
     // Form a full path for the file location
     const fullPath = path.join(basePath, `${mediaFilename}`);

@@ -1,16 +1,18 @@
 import { Address } from "@prisma/client";
+import { Upload } from "graphql-upload-ts/dist/Upload";
 
 export interface IAddTradingInfo {
   tradingName: string;
   phone: string;
-  logo?: File;
+  logo?: Blob;
 }
 
 export interface IUpdateTradingInfo {
   providerId: number;
   tradingName?: string;
   phone?: string;
-  logo?: File;
+  logo?: Blob;
+  logoUrl?: string;
 }
 
 export interface IAddTradingAddress

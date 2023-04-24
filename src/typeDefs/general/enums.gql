@@ -45,3 +45,8 @@ enum DayType {
   SAT
   SUN
 }
+
+enum PaginationType {
+  CURSOR
+  NORMAL
+}

@@ -3,5 +3,10 @@
 # ************************************************** #
 
 type Query {
-  operatingTimes: [OperatingTime!]!
+  operatingTimes(
+    limit: Int
+    cursor: Int
+    page: Int
+    paginationType: PaginationType
+  ): OperatingTimesQueryResults
 }

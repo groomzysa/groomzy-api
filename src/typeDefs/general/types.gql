@@ -65,6 +65,12 @@ type Service {
   staffs: [Staff!]
 }
 
+type ServicesQueryResults {
+  services: [Service!]!
+  cursor: Int
+  count: Int
+}
+
 type Staff {
   id: Int!
   createdAt: String
@@ -98,6 +104,13 @@ type OperatingTime {
   provider: Provider
 }
 
+type OperatingTimesQueryResults {
+  operatingTimes: [OperatingTime!]!
+  days: [DayType!]!
+  cursor: Int
+  count: Int
+}
+
 type Social {
   id: Int!
   createdAt: String
@@ -107,8 +120,9 @@ type Social {
   provider: Provider
 }
 
-type Token {
+type UserToken {
   token: String!
+  user: User!
 }
 
 type Message {

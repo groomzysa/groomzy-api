@@ -1,3 +1,4 @@
-export interface IProviders {
-  search?: string;
+export enum PaginationType {
+  CURSOR = "CURSOR",
+  NORMAL = "NORMAL",
 }

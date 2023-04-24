@@ -1,5 +1,5 @@
 import { GraphQLError } from "graphql";
-import { IContext } from "../types";
+import { IContext } from "../../types";
 import { IProviders } from "./types";
 
 export const providers = async (_: any, args: IProviders, ctx: IContext) => {
@@ -11,6 +11,7 @@ export const providers = async (_: any, args: IProviders, ctx: IContext) => {
           OR: {
             tradingName: {
               contains: search,
+              mode: "insensitive",
             },
           },
         },

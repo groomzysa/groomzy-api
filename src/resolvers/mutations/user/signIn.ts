@@ -37,6 +37,11 @@ export const signIn = async (_: any, args: ISignIn, ctx: IContext) => {
       },
       include: {
         address: true,
+        provider: {
+          include: {
+            addresses: true,
+          },
+        },
       },
     });
 
@@ -66,7 +71,7 @@ export const signIn = async (_: any, args: ISignIn, ctx: IContext) => {
       process.env.GROOMZY_JWT_SECRET
     );
 
-    return { token };
+    return { token, user };
   } catch (error) {
     throw new GraphQLError((error as Error).message);
   }
