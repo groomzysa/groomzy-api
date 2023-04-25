@@ -1,0 +1,7 @@
+# ************************************************** #
+# ***************** Update gallery ***************** #
+# ************************************************** #
+
+type Mutation {
+  updateGallery(galleryId: Int!, name: String, galleryImage: File): Gallery!
+}

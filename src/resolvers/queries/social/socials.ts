@@ -1,7 +1,7 @@
 import { UserRole } from "@prisma/client";
 import { GraphQLError } from "graphql";
-import { userAuthToken } from "../../utils/userAuthToken";
-import { IContext } from "../types";
+import { userAuthToken } from "../../../utils/userAuthToken";
+import { IContext } from "../../types";
 
 export const socials = async (_: any, __: any, ctx: IContext) => {
   try {
