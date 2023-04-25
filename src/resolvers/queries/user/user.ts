@@ -1,5 +1,5 @@
-import { userAuthToken } from "../../utils/userAuthToken";
-import { IContext } from "../types";
+import { userAuthToken } from "../../../utils/userAuthToken";
+import { IContext } from "../../types";
 
 export const user = async (_: any, __: any, ctx: IContext) => {
   const tokenDetails = userAuthToken(ctx);

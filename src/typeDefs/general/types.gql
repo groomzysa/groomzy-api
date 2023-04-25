@@ -120,6 +120,14 @@ type Social {
   provider: Provider
 }
 
+type Gallery {
+  id: Int!
+  createdAt: String
+  updatedAt: String
+  galleryurl: String
+  provider: Provider
+}
+
 type UserToken {
   token: String!
   user: User!

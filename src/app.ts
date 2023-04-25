@@ -93,12 +93,55 @@ export const AppServer = () => {
 
     // Internal server error
     const internalServerError = {
-      message: "There has been an internal server error while retrieving logo.",
+      message:
+        "There has been an internal server error while retrieving profile image.",
       success: false,
     };
 
     // Get the base path if exist
     const basePath = `${process.env.GROOMZY_IMAGES_BASE_PATH || ""}/profiles/`;
+
+    // Get all the params from the request
+    const { mediaFilename } = req.params;
+
+    // Form a full path for the image location
+    const fullPath = path.join(basePath, `${mediaFilename}`);
+
+    // Check if file exist
+    if (!fs.existsSync(fullPath)) {
+      res.status(404).send(notFound);
+
+      return;
+    }
+
+    // Download the media logo image.
+    res.download(fullPath, (err) => {
+      if (err) {
+        if (!res.headersSent) {
+          res.status(500).send(internalServerError);
+        } else {
+          res.end();
+        }
+      }
+    });
+  });
+
+  app.get("/?/gallery/:mediaFilename", (req, res) => {
+    // Not getting the data request
+    const notFound = {
+      message: "Gallery image not found.",
+      success: false,
+    };
+
+    // Internal server error
+    const internalServerError = {
+      message:
+        "There has been an internal server error while retrieving gallery image.",
+      success: false,
+    };
+
+    // Get the base path if exist
+    const basePath = `${process.env.GROOMZY_IMAGES_BASE_PATH || ""}/gallery/`;
 
     // Get all the params from the request
     const { mediaFilename } = req.params;

@@ -1,13 +1,13 @@
 import { operatingTimeQueries } from "./operatingTime";
 import { providerQueries } from "./provider";
 import { serviceQueries } from "./service";
-import { socials } from "./socials";
-import { user } from "./user";
+import { socialQueries } from "./social";
+import { userQueries } from "./user";
 
 export default {
-  user,
+  ...userQueries,
   ...providerQueries,
   ...serviceQueries,
   ...operatingTimeQueries,
-  socials,
+  ...socialQueries,
 };
