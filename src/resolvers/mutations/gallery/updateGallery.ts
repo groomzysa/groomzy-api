@@ -35,7 +35,7 @@ export const updateGallery = async (
 
       const buffer = await galleryImage.arrayBuffer();
 
-      updateData.galleryurl = await storeUpload({
+      updateData.galleryImageUrl = await storeUpload({
         buffer,
         filename,
         filePath,

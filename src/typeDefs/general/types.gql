@@ -124,8 +124,15 @@ type Gallery {
   id: Int!
   createdAt: String
   updatedAt: String
-  galleryurl: String
+  name: String
+  galleryImageUrl: String
   provider: Provider
+}
+
+type GalleriesQueryResults {
+  galleries: [Gallery!]!
+  cursor: Int
+  count: Int
 }
 
 type UserToken {

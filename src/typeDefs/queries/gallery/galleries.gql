@@ -1,0 +1,13 @@
+# ************************************************** #
+# ******************* Galleries ******************** #
+# ************************************************** #
+
+type Query {
+  galleries(
+    providerId: Int
+    limit: Int
+    cursor: Int
+    page: Int
+    paginationType: PaginationType
+  ): GalleriesQueryResults
+}

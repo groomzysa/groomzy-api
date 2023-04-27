@@ -1,3 +1,4 @@
+import { galleryQueries } from "./gallery";
 import { operatingTimeQueries } from "./operatingTime";
 import { providerQueries } from "./provider";
 import { serviceQueries } from "./service";
@@ -10,4 +11,5 @@ export default {
   ...serviceQueries,
   ...operatingTimeQueries,
   ...socialQueries,
+  ...galleryQueries,
 };

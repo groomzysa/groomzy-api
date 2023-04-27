@@ -24,25 +24,23 @@ export const addGallery = async (_: any, args: IAddGallery, ctx: IContext) => {
       throw new GraphQLError("Gallery image is required.");
     }
 
-    let galleryImageurl;
+    let galleryImageUrl;
 
-    if (galleryImage) {
-      const filename = `${userId}-${moment(new Date()).utc()}-gallery.${
-        galleryImage.type.split("/")[1]
-      }`;
-      const filePath = `${process.env.GROOMZY_IMAGES_BASE_PATH}/gallery`;
+    const filename = `${userId}-${name}-gallery.${
+      galleryImage.type.split("/")[1]
+    }`;
+    const filePath = `${process.env.GROOMZY_IMAGES_BASE_PATH}/gallery`;
 
-      const buffer = await galleryImage.arrayBuffer();
+    const buffer = await galleryImage.arrayBuffer();
 
-      galleryImageurl = await storeUpload({
-        buffer,
-        filename,
-        filePath,
-        getFileEndpoint: "gallery",
-      });
-    }
+    galleryImageUrl = await storeUpload({
+      buffer,
+      filename,
+      filePath,
+      getFileEndpoint: "gallery",
+    });
 
-    if (!galleryImageurl) {
+    if (!galleryImageUrl) {
       throw new GraphQLError(
         "Something went wrong while storing gallery image."
       );
@@ -51,7 +49,7 @@ export const addGallery = async (_: any, args: IAddGallery, ctx: IContext) => {
     return ctx.prisma.gallery.create({
       data: {
         name,
-        galleryurl: galleryImageurl,
+        galleryImageUrl,
         provider: {
           connect: {
             userId,

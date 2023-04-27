@@ -7,7 +7,7 @@ export interface IUpdateGallery {
   galleryId: number;
   name?: string;
   galleryImage?: Blob;
-  galleryurl?: string;
+  galleryImageUrl?: string;
 }
 
 export interface IDeleteGallery {

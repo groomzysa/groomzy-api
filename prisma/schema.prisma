@@ -205,11 +205,11 @@ model Social {
 }
 
 model Gallery {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  name       String   @db.VarChar(255)
-  galleryurl String   @db.VarChar(255)
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  name            String   @db.VarChar(255)
+  galleryImageUrl String   @db.VarChar(255)
 
   provider   Provider @relation(fields: [providerId], references: [id])
   providerId Int
