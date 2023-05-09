@@ -6,6 +6,7 @@ import { getTransporter } from "../../../utils/mail/transporter";
 import { IContext } from "../../types";
 import { IAddUser } from "./types";
 import { GraphQLError } from "graphql";
+import { UserRole } from "@prisma/client";
 
 export const addUser = async (_: any, args: IAddUser, ctx: IContext) => {
   try {
@@ -99,6 +100,14 @@ export const addUser = async (_: any, args: IAddUser, ctx: IContext) => {
       },
     });
 
+    if (role === UserRole.PROVIDER) {
+      await ctx.prisma.provider.create({
+        data: {
+          userId: user.id,
+        },
+      });
+    }
+
     const mailOptions = {
       from: "info@groomzy.co.za",
       to: email,
@@ -109,23 +118,31 @@ export const addUser = async (_: any, args: IAddUser, ctx: IContext) => {
         headerPartialContext: {
           logoUrl: `${
             process.env.GROOMYZ_API_BASE_URL || ""
-          }/common-media-file/media-logo`,
+          }/common/media-logo`,
           groomzyUrl: process.env.GROOMZY_BASE_URL || "",
         },
         footerPartialContext: {
           intagramLogoUrl: `${
             process.env.GROOMYZ_API_BASE_URL || ""
-          }/common-media-file/instagram-logo`,
+          }/common/instagram-logo`,
           googlePlayLogoUrl: `${
             process.env.GROOMYZ_API_BASE_URL || ""
-          }/common-media-file/google-play-button`,
+          }/common/google-play-button`,
         },
       },
     };
 
-    await transporter.sendMail(mailOptions);
-
-    return user;
+    try {
+      await transporter.sendMail(mailOptions);
+      return user;
+    } catch (error) {
+      await ctx.prisma.provider.delete({ where: { userId: user.id } });
+      await ctx.prisma.user.delete({ where: { id: user.id } });
+      throw new GraphQLError(
+        `Email could not be sent. 
+        Please provide active email address in other to register successfuly.`
+      );
+    }
   } catch (error) {
     throw new GraphQLError((error as Error).message);
   }

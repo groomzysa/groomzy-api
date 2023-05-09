@@ -43,6 +43,48 @@ export const AppServer = () => {
     next();
   });
 
+  app.get("/?/common/:mediaFilename", (req, res) => {
+    // Not getting the data request
+    const notFound = {
+      message: "Media file not found.",
+      success: false,
+    };
+
+    // Internal server error
+    const internalServerError = {
+      message:
+        "There has been an internal server error while retrieving media file.",
+      success: false,
+    };
+
+    // Get the base path if exist
+    const basePath = `${process.env.GROOMZY_IMAGES_BASE_PATH || ""}/common/`;
+
+    // Get all the params from the request
+    const { mediaFilename } = req.params;
+
+    // Form a full path for the image location
+    const fullPath = path.join(basePath, `${mediaFilename}`);
+
+    // Check if file exist
+    if (!fs.existsSync(fullPath)) {
+      res.status(404).send(notFound);
+
+      return;
+    }
+
+    // Download the media logo image.
+    res.download(fullPath, (err) => {
+      if (err) {
+        if (!res.headersSent) {
+          res.status(500).send(internalServerError);
+        } else {
+          res.end();
+        }
+      }
+    });
+  });
+
   app.get("/?/logo/:mediaFilename", (req, res) => {
     // Not getting the data request
     const notFound = {
