@@ -80,6 +80,12 @@ type Staff {
   services: [Service!]
 }
 
+type StaffsQueryResults {
+  staffs: [Staff!]!
+  cursor: Int
+  count: Int
+}
+
 type User {
   id: Int!
   createdAt: String

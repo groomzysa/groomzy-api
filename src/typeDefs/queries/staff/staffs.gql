@@ -1,0 +1,13 @@
+# ************************************************** #
+# ******************** Staffs ********************** #
+# ************************************************** #
+
+type Query {
+  staffs(
+    providerId: Int
+    limit: Int
+    cursor: Int
+    page: Int
+    paginationType: PaginationType
+  ): StaffsQueryResults
+}

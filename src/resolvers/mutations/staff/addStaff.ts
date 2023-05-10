@@ -28,9 +28,9 @@ export const addStaff = async (_: any, args: IAddStaff, ctx: IContext) => {
         lastName,
         provider: {
           connect: {
-            userId
-          }
-        }
+            userId,
+          },
+        },
       },
     });
   } catch (error) {
