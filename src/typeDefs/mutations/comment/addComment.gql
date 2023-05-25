@@ -1,0 +1,12 @@
+# ************************************************** #
+# ****************** Add comment ******************* #
+# ************************************************** #
+
+type Mutation {
+  addComment(
+    message: String!
+    clientId: Int
+    parentId: Int
+    providerId: Int
+  ): Comment!
+}

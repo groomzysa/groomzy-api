@@ -1,0 +1,13 @@
+# ************************************************** #
+# ******************* Comments ********************* #
+# ************************************************** #
+
+type Query {
+  comments(
+    providerId: Int
+    limit: Int
+    cursor: Int
+    page: Int
+    paginationType: PaginationType
+  ): CommentsQueryResults
+}

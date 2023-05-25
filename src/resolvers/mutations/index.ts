@@ -1,3 +1,4 @@
+import { commentMutations } from "./comment";
 import { contactMail } from "./contactMail";
 import { galleryMutations } from "./gallery";
 import { operatingTimeMutations } from "./operatingTime";
@@ -15,5 +16,6 @@ export default {
   ...staffMutations,
   ...operatingTimeMutations,
   ...socialMutations,
+  ...commentMutations,
   contactMail,
 };

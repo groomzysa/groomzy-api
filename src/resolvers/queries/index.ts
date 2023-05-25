@@ -5,6 +5,7 @@ import { serviceQueries } from "./service";
 import { socialQueries } from "./social";
 import { staffQueries } from "./staff";
 import { userQueries } from "./user";
+import { commentQueries } from "./comment";
 
 export default {
   ...userQueries,
@@ -14,4 +15,5 @@ export default {
   ...socialQueries,
   ...galleryQueries,
   ...staffQueries,
+  ...commentQueries,
 };

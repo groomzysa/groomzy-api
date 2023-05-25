@@ -141,6 +141,35 @@ type GalleriesQueryResults {
   count: Int
 }
 
+type ProviderLike {
+  provider: Provider
+  comment: Comment
+}
+
+type ClientLike {
+  client: Client
+  comment: Comment
+}
+
+type Comment {
+  id: Int!
+  message: String
+  createdAt: String
+  updatedAt: String
+  client: Client
+  provider: Provider
+  parent: Comment
+  children: [Comment!]
+  providerLikes: [ProviderLike!]
+  clientLikes: [ClientLike!]
+}
+
+type CommentsQueryResults {
+  comments: [Comment!]!
+  cursor: Int
+  count: Int
+}
+
 type UserToken {
   token: String!
   user: User!
