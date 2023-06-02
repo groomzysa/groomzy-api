@@ -19,6 +19,7 @@ export const provider = async (_: any, args: IProvider, ctx: IContext) => {
         include: {
           addresses: true,
           operatingTimes: true,
+          staffs: true,
         },
       });
     } else {

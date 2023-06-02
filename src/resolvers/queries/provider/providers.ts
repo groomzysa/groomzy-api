@@ -19,6 +19,7 @@ export const providers = async (_: any, args: IProviders, ctx: IContext) => {
           addresses: true,
           operatingTimes: true,
           socials: true,
+          staffs: true,
         },
       });
     }
